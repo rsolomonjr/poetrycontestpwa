@@ -7,29 +7,21 @@
 
 /* Updated Color Palette - Education Hub Inspired */
 :root {
-    --primary: #4f46e5;
-    /* More vibrant indigo */
+    --primary: #4f46e5; /* More vibrant indigo */
     --primary-dark: #3730a3;
     --primary-light: #6366f1;
-    --background: #f8fafc;
-    /* Lighter, cleaner background */
+    --background: #f8fafc; /* Lighter, cleaner background */
     --surface: #ffffff;
     --surface-elevated: #ffffff;
-    --text-primary: #0f172a;
-    /* Richer dark text */
-    --text-secondary: #64748b;
-    /* Modern slate gray */
+    --text-primary: #0f172a; /* Richer dark text */
+    --text-secondary: #64748b; /* Modern slate gray */
     --text-muted: #94a3b8;
     --border: #e2e8f0;
     --border-light: #f1f5f9;
-    --success: #10b981;
-    /* Modern green */
-    --warning: #f59e0b;
-    /* Warm amber */
-    --error: #ef4444;
-    /* Clean red */
-    --info: #3b82f6;
-    /* Bright blue */
+    --success: #10b981; /* Modern green */
+    --warning: #f59e0b; /* Warm amber */
+    --error: #ef4444; /* Clean red */
+    --info: #3b82f6; /* Bright blue */
     --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -128,51 +120,173 @@ body {
     padding: 0.5rem 0;
 }
 
-/* Mobile-First Navigation - Fixed */
-.nav-tabs {
+/* Mobile Hamburger Navigation */
+.mobile-nav-toggle {
     display: flex;
-    gap: 0.125rem;
-    justify-content: space-evenly;
-    width: 100%;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    padding: 0.25rem 0;
-    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 44px;
+    min-height: 44px;
 }
 
-.nav-tabs::-webkit-scrollbar {
+.mobile-nav-toggle:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    width: 20px;
+    height: 16px;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.hamburger span {
+    display: block;
+    height: 2px;
+    background: currentColor;
+    border-radius: 1px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Mobile Navigation Overlay */
+.mobile-nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(2px);
+}
+
+.mobile-nav-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mobile-nav-menu {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 280px;
+    height: 100vh;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    z-index: 1001;
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 2rem 1.5rem;
+    box-shadow: var(--shadow-xl);
+    overflow-y: auto;
+}
+
+.mobile-nav-menu.show {
+    right: 0;
+}
+
+.mobile-nav-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.mobile-nav-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: var(--radius);
+    transition: all 0.2s ease;
+}
+
+.mobile-nav-close:hover {
+    background: var(--background);
+    color: var(--text-primary);
+}
+
+.mobile-nav-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.mobile-nav-tab {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: none;
+    border: none;
+    border-radius: var(--radius);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    width: 100%;
+}
+
+.mobile-nav-tab:hover {
+    background: var(--background);
+}
+
+.mobile-nav-tab.active {
+    background: var(--primary);
+    color: white;
+}
+
+.mobile-nav-tab-icon {
+    font-size: 1.25rem;
+    width: 24px;
+    text-align: center;
+}
+
+/* Desktop Navigation (hidden on mobile) */
+.desktop-nav {
     display: none;
 }
 
-.nav-tab {
-    padding: 0.625rem 0.375rem;
-    border: none;
-    background: var(--background);
-    color: var(--text-secondary);
-    font-weight: 600;
-    cursor: pointer;
-    border-radius: var(--radius-sm);
-    transition: all 0.2s ease;
-    font-size: 0.75rem;
-    text-align: center;
-    white-space: nowrap;
-    flex: 1;
-    min-width: 50px;
-    border: 1px solid var(--border-light);
+/* Mobile-First Navigation - Hamburger Style */
+.nav-tabs {
+    display: none; /* Hidden on mobile, will be shown in hamburger menu */
 }
 
-.nav-tab:hover {
-    color: var(--primary);
-    background: rgba(var(--primary-rgb), 0.08);
-    border-color: var(--primary);
-}
-
-.nav-tab.active {
-    color: white;
-    background: var(--primary);
-    border-color: var(--primary);
-    box-shadow: var(--shadow);
+.mobile-nav-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .header-actions {
@@ -182,73 +296,41 @@ body {
     flex-wrap: wrap;
 }
 
-/* Mobile-Optimized Buttons - Fixed */
+/* Mobile-Optimized Buttons - REALLY FIXED */
 .btn {
-    padding: 0.75rem 1rem;
+    padding: 0.625rem 0.75rem;
     border: 1px solid var(--border);
     background: var(--surface);
     color: var(--text-primary);
     border-radius: var(--radius);
     cursor: pointer;
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     font-weight: 600;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.375rem;
+    gap: 0.25rem;
     box-shadow: var(--shadow);
     text-align: center;
-    min-height: 40px;
+    min-height: 36px;
     white-space: nowrap;
     position: relative;
     overflow: hidden;
 }
 
-.btn:hover {
-    background: var(--background);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--primary);
-}
-
-.btn:active {
-    transform: translateY(0);
-}
-
-.btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: var(--shadow);
-}
-
-.btn-primary {
+.theme-toggle {
     background: var(--primary);
     color: white;
     border: none;
-    box-shadow: var(--shadow);
-    font-weight: 700;
-}
-
-.btn-primary:hover {
-    background: var(--primary-dark);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-}
-
-.theme-toggle {
-    background: var(--background);
-    border: 1px solid var(--border);
-    color: var(--text-secondary);
     cursor: pointer;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
+    padding: 0.625rem;
+    border-radius: var(--radius);
     transition: all 0.2s ease;
-    font-size: 1.2rem;
+    font-size: 1rem;
     box-shadow: var(--shadow);
-    min-width: 44px;
-    min-height: 44px;
+    min-width: 36px;
+    min-height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -378,7 +460,7 @@ body {
     border-right: none;
 }
 
-.calendar-grid>*:nth-last-child(-n + 7) {
+.calendar-grid > *:nth-last-child(-n + 7) {
     border-bottom: none;
 }
 
@@ -486,7 +568,7 @@ body {
     border-radius: var(--radius) var(--radius) 0 0;
 }
 
-#filterPanel>div {
+#filterPanel > div {
     width: 100%;
 }
 
@@ -500,7 +582,7 @@ body {
     letter-spacing: 0.025em;
 }
 
-#filterPanel select,
+#filterPanel select, 
 #filterPanel input[type="search"] {
     width: 100%;
     padding: 0.75rem;
@@ -514,7 +596,7 @@ body {
     font-weight: 500;
 }
 
-#filterPanel select:focus,
+#filterPanel select:focus, 
 #filterPanel input[type="search"]:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.1);
@@ -714,9 +796,7 @@ body {
     gap: 0.75rem;
 }
 
-#poemSearch,
-#tagFilter,
-#sortPoems {
+#poemSearch, #tagFilter, #sortPoems {
     width: 100%;
     padding: 0.75rem;
     border: 1px solid var(--border);
@@ -728,9 +808,7 @@ body {
     min-height: 44px;
 }
 
-#poemSearch:focus,
-#tagFilter:focus,
-#sortPoems:focus {
+#poemSearch:focus, #tagFilter:focus, #sortPoems:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.2);
     outline: none;
@@ -1075,11 +1153,11 @@ body {
     border-radius: 50%;
 }
 
-input:checked+.toggle-slider {
+input:checked + .toggle-slider {
     background-color: var(--primary);
 }
 
-input:checked+.toggle-slider:before {
+input:checked + .toggle-slider:before {
     transform: translateX(20px);
 }
 
@@ -1110,23 +1188,13 @@ input:checked+.toggle-slider:before {
 }
 
 @keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 @keyframes slideUp {
@@ -1134,7 +1202,6 @@ input:checked+.toggle-slider:before {
         opacity: 0;
         transform: translateY(20px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1325,8 +1392,7 @@ input:checked+.toggle-slider:before {
     background: var(--background);
 }
 
-#fontFamily,
-#fontSize {
+#fontFamily, #fontSize {
     padding: 0.375rem;
     border: 1px solid var(--border);
     background: var(--surface);
@@ -1548,60 +1614,60 @@ input:checked+.toggle-slider:before {
     .app-container {
         padding: 0.75rem;
     }
-
+    
     .header {
         padding: 1.25rem;
     }
-
+    
     .header-content {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
     }
-
+    
     .nav-tabs {
         flex-wrap: nowrap;
-        justify-content: space-evenly;
+        justify-content: center;
         gap: 0.5rem;
     }
-
+    
     .nav-tab {
         font-size: 0.875rem;
-        padding: 0.75rem 0;
+        padding: 0.75rem 1rem;
     }
-
+    
     .calendar-day {
         min-height: 100px;
         padding: 0.5rem;
     }
-
+    
     .contest-event {
         font-size: 0.75rem;
         padding: 0.375rem 0.5rem;
     }
-
+    
     .contest-favicon {
         width: 18px;
         height: 18px;
         font-size: 0.6875rem;
     }
-
+    
     .form-row {
         grid-template-columns: 1fr 1fr;
     }
-
+    
     .data-actions {
         grid-template-columns: repeat(2, 1fr);
     }
-
+    
     .export-buttons {
         grid-template-columns: repeat(2, 1fr);
     }
-
+    
     .submission-details {
         grid-template-columns: repeat(2, 1fr);
     }
-
+    
     .submission-actions {
         flex-direction: row;
     }
@@ -1613,55 +1679,55 @@ input:checked+.toggle-slider:before {
         padding: 1.5rem;
         max-width: 1200px;
     }
-
+    
     .header {
         padding: 2rem;
     }
-
+    
     .calendar-header {
         padding: 2.5rem 2rem;
         margin: 0 0 0 0;
     }
-
+    
     .calendar-grid {
         margin: 0 0 2rem 0;
     }
-
+    
     #filterPanel {
         margin: 0 0 2rem 0;
     }
-
+    
     .current-month {
         font-size: 1.75rem;
         font-weight: 800;
     }
-
+    
     .calendar-day {
         min-height: 120px;
         padding: 1rem;
     }
-
+    
     .day-number {
         font-size: 1rem;
         padding: 0.5rem 0.75rem;
     }
-
+    
     .contest-event {
         font-size: 0.8125rem;
         padding: 0.625rem 0.875rem;
         min-height: 36px;
     }
-
+    
     .contest-favicon {
         width: 24px;
         height: 24px;
         font-size: 0.8125rem;
     }
-
+    
     .modal {
         padding: 2rem;
     }
-
+    
     .modal-content {
         max-width: 600px;
         padding: 2.5rem;
@@ -1672,137 +1738,130 @@ input:checked+.toggle-slider:before {
         flex-direction: row;
         justify-content: flex-end;
     }
-
+    
     .modal-actions .btn {
         width: auto;
     }
-
+    
     .tab-content {
         padding: 2rem;
         border-radius: var(--radius-lg);
     }
-
+    
     #poemsGrid {
         grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     }
-
+    
     .resources-grid {
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     }
-
+    
     .form-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-
+    
     .data-actions {
         grid-template-columns: repeat(3, 1fr);
     }
-
+    
     .export-buttons {
         grid-template-columns: repeat(3, 1fr);
     }
-
+    
     .submission-details {
         grid-template-columns: repeat(3, 1fr);
     }
-
+    
     .poems-filters {
         flex-direction: row;
         align-items: center;
     }
-
-    .poems-filters>* {
+    
+    .poems-filters > * {
         flex: 1;
         min-width: 150px;
     }
-
+    
     .desktop-only {
         display: block;
     }
-
+    
     .mobile-only {
         display: none;
     }
-}
-
-/* Desktop */
+}/* Desktop */
 @media (min-width: 1024px) {
-    body {
-        max-width: 95%;
-        margin: 0 auto;
-    }
-
     .app-container {
         padding: 2rem;
         max-width: 1400px;
     }
-
+    
     .header {
         padding: 2rem 2.5rem;
         top: 2rem;
     }
-
+    
     .logo {
         font-size: 1.75rem;
         justify-content: flex-start;
         font-weight: 800;
     }
-
+    
     .nav-tabs {
         gap: 1rem;
     }
-
+    
     .nav-tab {
         font-size: 1rem;
         padding: 0.875rem 1.5rem;
         border-radius: var(--radius);
     }
-
+    
     .calendar-day {
         min-height: 140px;
         padding: 1.25rem 1rem;
     }
-
+    
     .day-number {
         font-size: 1.125rem;
         padding: 0.5rem 1rem;
     }
-
+    
     .contest-event {
         font-size: 0.875rem;
         padding: 0.75rem 1rem;
         min-height: 40px;
     }
-
+    
     .contest-favicon {
         width: 28px;
         height: 28px;
         font-size: 0.875rem;
     }
-
+    
     .modal-content {
         max-width: 700px;
         padding: 3rem;
     }
-
+    
     #poemsGrid {
         grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     }
-
+    
     .resources-grid {
         grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     }
-
+    
     #profile,
     #settings {
         max-width: 800px;
         margin: 0 auto;
     }
-
+    
     .data-actions {
         grid-template-columns: repeat(4, 1fr);
     }
-
+    
     .tab-content {
         padding: 2.5rem;
     }
@@ -1816,17 +1875,17 @@ input:checked+.toggle-slider:before {
         justify-content: space-between;
         padding: 2.5rem 3rem;
     }
-
+    
     .calendar-actions {
         justify-content: flex-end;
     }
-
+    
     .poems-header {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
     }
-
+    
     .submissions-header {
         flex-direction: row;
         align-items: center;
@@ -1836,13 +1895,12 @@ input:checked+.toggle-slider:before {
 
 /* Enhanced animations and micro-interactions */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
+    from { 
+        opacity: 0; 
         transform: translateY(10px);
     }
-
-    to {
-        opacity: 1;
+    to { 
+        opacity: 1; 
         transform: translateY(0);
     }
 }
@@ -1852,7 +1910,6 @@ input:checked+.toggle-slider:before {
         opacity: 0;
         transform: translateY(30px) scale(0.95);
     }
-
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -1860,12 +1917,9 @@ input:checked+.toggle-slider:before {
 }
 
 @keyframes pulse {
-
-    0%,
-    100% {
+    0%, 100% {
         opacity: 1;
     }
-
     50% {
         opacity: 0.7;
     }
@@ -1875,7 +1929,6 @@ input:checked+.toggle-slider:before {
     0% {
         background-position: -200px 0;
     }
-
     100% {
         background-position: calc(200px + 100%) 0;
     }
@@ -1968,12 +2021,7 @@ textarea:focus-visible,
 }
 
 /* Enhanced typography */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
     line-height: 1.2;
     color: var(--text-primary);
@@ -2046,48 +2094,48 @@ h3 {
         padding: 1.5rem;
         max-width: 1400px;
     }
-
+    
     .header {
         padding: 1.5rem 2rem;
     }
-
+    
     .logo {
         font-size: 1.5rem;
         justify-content: flex-start;
     }
-
+    
     .nav-tabs {
         gap: 0.75rem;
     }
-
+    
     .nav-tab {
         font-size: 0.9375rem;
         padding: 0.75rem 1.25rem;
     }
-
+    
     .calendar-day {
         min-height: 140px;
         padding: 0.75rem;
     }
-
+    
     .modal-content {
         max-width: 700px;
     }
-
+    
     #poemsGrid {
         grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     }
-
+    
     .resources-grid {
         grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     }
-
+    
     #profile,
     #settings {
         max-width: 800px;
         margin: 0 auto;
     }
-
+    
     .data-actions {
         grid-template-columns: repeat(4, 1fr);
     }
@@ -2100,17 +2148,17 @@ h3 {
         align-items: center;
         justify-content: space-between;
     }
-
+    
     .calendar-actions {
         justify-content: flex-end;
     }
-
+    
     .poems-header {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
     }
-
+    
     .submissions-header {
         flex-direction: row;
         align-items: center;
@@ -2120,7 +2168,6 @@ h3 {
 
 /* Print styles */
 @media print {
-
     .header,
     .nav-tabs,
     .header-actions,
@@ -2129,23 +2176,23 @@ h3 {
     button {
         display: none !important;
     }
-
+    
     .app-container {
         padding: 0;
         box-shadow: none;
     }
-
+    
     .calendar-grid,
     .tab-content {
         box-shadow: none;
         border: 1px solid #000;
     }
-
+    
     .calendar-day {
         border: 1px solid #000;
         min-height: 100px;
     }
-
+    
     body {
         background: white !important;
         color: black !important;
@@ -2168,10 +2215,10 @@ h3 {
         --text-primary: #000000;
         --text-secondary: #333333;
     }
-
+    
     [data-theme="dark"] {
         --border: #ffffff;
-        --text-primary: #ffffff;
+        --text-primary: #ffffff;  
         --text-secondary: #cccccc;
     }
 }

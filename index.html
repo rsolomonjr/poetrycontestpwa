@@ -28,13 +28,16 @@
                 <div class="logo">
                     📝 Poetry Contest Calendar
                 </div>
-                <nav class="nav-tabs" role="navigation" aria-label="Main navigation">
-                    <button class="nav-tab active" data-tab="calendar" aria-label="Calendar view">Cal</button>
+                
+                <!-- Desktop Navigation -->
+                <nav class="nav-tabs desktop-nav" role="navigation" aria-label="Main navigation">
+                    <button class="nav-tab active" data-tab="calendar" aria-label="Calendar view">Calendar</button>
                     <button class="nav-tab" data-tab="poems" aria-label="My poems">Poems</button>
-                    <button class="nav-tab" data-tab="resources" aria-label="Resources">Info</button>
+                    <button class="nav-tab" data-tab="resources" aria-label="Resources">Resources</button>
                     <button class="nav-tab" data-tab="profile" aria-label="Profile">Profile</button>
                     <button class="nav-tab" data-tab="settings" aria-label="Settings">Settings</button>
                 </nav>
+                
                 <div class="header-actions">
                     <button class="btn" id="searchContests" aria-label="Search contests">
                         🔍 <span class="desktop-only">Search</span>
@@ -42,9 +45,56 @@
                     <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                         🌙
                     </button>
+                    
+                    <!-- Mobile Navigation Trigger -->
+                    <button class="mobile-nav-toggle mobile-nav-trigger" id="mobileNavToggle" aria-label="Open navigation menu">
+                        <div class="hamburger" id="hamburger">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </button>
                 </div>
             </div>
         </header>
+
+        <!-- Mobile Navigation Overlay -->
+        <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+        
+        <!-- Mobile Navigation Menu -->
+        <nav class="mobile-nav-menu" id="mobileNavMenu" role="navigation" aria-label="Mobile navigation">
+            <div class="mobile-nav-header">
+                <div class="logo" style="font-size: 1rem;">
+                    📝 Poetry Calendar
+                </div>
+                <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close navigation menu">
+                    ✕
+                </button>
+            </div>
+            
+            <div class="mobile-nav-tabs">
+                <button class="mobile-nav-tab active" data-tab="calendar" aria-label="Calendar view">
+                    <span class="mobile-nav-tab-icon">📅</span>
+                    Calendar
+                </button>
+                <button class="mobile-nav-tab" data-tab="poems" aria-label="My poems">
+                    <span class="mobile-nav-tab-icon">📝</span>
+                    My Poems
+                </button>
+                <button class="mobile-nav-tab" data-tab="resources" aria-label="Resources">
+                    <span class="mobile-nav-tab-icon">📚</span>
+                    Resources
+                </button>
+                <button class="mobile-nav-tab" data-tab="profile" aria-label="Profile">
+                    <span class="mobile-nav-tab-icon">👤</span>
+                    Profile
+                </button>
+                <button class="mobile-nav-tab" data-tab="settings" aria-label="Settings">
+                    <span class="mobile-nav-tab-icon">⚙️</span>
+                    Settings
+                </button>
+            </div>
+        </nav>
 
         <main class="main-content">
             <!-- Calendar Tab -->
@@ -510,6 +560,112 @@
 
     <!-- JavaScript -->
     <script src="app.js"></script>
+    <script>
+        // Mobile Navigation Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileNavToggle = document.getElementById('mobileNavToggle');
+            const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+            const mobileNavMenu = document.getElementById('mobileNavMenu');
+            const mobileNavClose = document.getElementById('mobileNavClose');
+            const hamburger = document.getElementById('hamburger');
+            const body = document.body;
+
+            // Open mobile navigation
+            function openMobileNav() {
+                mobileNavOverlay.classList.add('show');
+                mobileNavMenu.classList.add('show');
+                hamburger.classList.add('active');
+                body.style.overflow = 'hidden';
+            }
+
+            // Close mobile navigation
+            function closeMobileNav() {
+                mobileNavOverlay.classList.remove('show');
+                mobileNavMenu.classList.remove('show');
+                hamburger.classList.remove('active');
+                body.style.overflow = '';
+            }
+
+            // Event listeners
+            if (mobileNavToggle) {
+                mobileNavToggle.addEventListener('click', openMobileNav);
+            }
+
+            if (mobileNavClose) {
+                mobileNavClose.addEventListener('click', closeMobileNav);
+            }
+
+            if (mobileNavOverlay) {
+                mobileNavOverlay.addEventListener('click', closeMobileNav);
+            }
+
+            // Handle mobile nav tab clicks
+            const mobileNavTabs = document.querySelectorAll('.mobile-nav-tab');
+            const desktopNavTabs = document.querySelectorAll('.nav-tab');
+            
+            mobileNavTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.dataset.tab;
+                    
+                    // Update mobile nav active state
+                    mobileNavTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update desktop nav active state
+                    desktopNavTabs.forEach(t => t.classList.remove('active'));
+                    const correspondingDesktopTab = document.querySelector(`.nav-tab[data-tab="${tabName}"]`);
+                    if (correspondingDesktopTab) {
+                        correspondingDesktopTab.classList.add('active');
+                    }
+                    
+                    // Switch tab content
+                    if (typeof switchTab === 'function') {
+                        switchTab(tabName);
+                    }
+                    
+                    // Close mobile menu
+                    closeMobileNav();
+                });
+            });
+
+            // Handle desktop nav tab clicks
+            desktopNavTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.dataset.tab;
+                    
+                    // Update desktop nav active state
+                    desktopNavTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update mobile nav active state
+                    mobileNavTabs.forEach(t => t.classList.remove('active'));
+                    const correspondingMobileTab = document.querySelector(`.mobile-nav-tab[data-tab="${tabName}"]`);
+                    if (correspondingMobileTab) {
+                        correspondingMobileTab.classList.add('active');
+                    }
+                    
+                    // Switch tab content
+                    if (typeof switchTab === 'function') {
+                        switchTab(tabName);
+                    }
+                });
+            });
+
+            // Close on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && mobileNavMenu.classList.contains('show')) {
+                    closeMobileNav();
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth >= 576) {
+                    closeMobileNav();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
                             Comprehensive database of grants, awards, and contests for poets and writers. Features detailed submission guidelines and deadlines.

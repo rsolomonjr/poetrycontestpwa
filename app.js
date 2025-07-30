@@ -2570,3 +2570,118 @@ window.addEventListener('beforeinstallprompt', (e) => {
         headerActions.insertBefore(installBtn, themeToggle);
     }
 });
+
+// Mobile Navigation Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileNavToggle = document.getElementById('mobileNavToggle');
+    const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+    const mobileNavMenu = document.getElementById('mobileNavMenu');
+    const mobileNavClose = document.getElementById('mobileNavClose');
+    const hamburger = document.getElementById('hamburger');
+    const body = document.body;
+
+    // Open mobile navigation
+    function openMobileNav() {
+        mobileNavOverlay.classList.add('show');
+        mobileNavMenu.classList.add('show');
+        hamburger.classList.add('active');
+        body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+
+    // Close mobile navigation
+    function closeMobileNav() {
+        mobileNavOverlay.classList.remove('show');
+        mobileNavMenu.classList.remove('show');
+        hamburger.classList.remove('active');
+        body.style.overflow = ''; // Restore scrolling
+    }
+
+    // Event listeners
+    if (mobileNavToggle) {
+        mobileNavToggle.addEventListener('click', openMobileNav);
+    }
+
+    if (mobileNavClose) {
+        mobileNavClose.addEventListener('click', closeMobileNav);
+    }
+
+    if (mobileNavOverlay) {
+        mobileNavOverlay.addEventListener('click', closeMobileNav);
+    }
+
+    // Handle mobile nav tab clicks
+    const mobileNavTabs = document.querySelectorAll('.mobile-nav-tab');
+    const desktopNavTabs = document.querySelectorAll('.nav-tab');
+    
+    mobileNavTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const tabName = this.dataset.tab;
+            
+            // Update mobile nav active state
+            mobileNavTabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Update desktop nav active state
+            desktopNavTabs.forEach(t => t.classList.remove('active'));
+            const correspondingDesktopTab = document.querySelector(`.nav-tab[data-tab="${tabName}"]`);
+            if (correspondingDesktopTab) {
+                correspondingDesktopTab.classList.add('active');
+            }
+            
+            // Switch tab content (assuming switchTab function exists)
+            if (typeof switchTab === 'function') {
+                switchTab(tabName);
+            }
+            
+            // Close mobile menu
+            closeMobileNav();
+        });
+    });
+
+    // Handle desktop nav tab clicks (update mobile nav state too)
+    desktopNavTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const tabName = this.dataset.tab;
+            
+            // Update desktop nav active state
+            desktopNavTabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Update mobile nav active state
+            mobileNavTabs.forEach(t => t.classList.remove('active'));
+            const correspondingMobileTab = document.querySelector(`.mobile-nav-tab[data-tab="${tabName}"]`);
+            if (correspondingMobileTab) {
+                correspondingMobileTab.classList.add('active');
+            }
+            
+            // Switch tab content
+            if (typeof switchTab === 'function') {
+                switchTab(tabName);
+            }
+        });
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && mobileNavMenu.classList.contains('show')) {
+            closeMobileNav();
+        }
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth >= 576) {
+            closeMobileNav();
+        }
+    });
+});
+
+// Export functions for use in main app
+window.mobileNavUtils = {
+    open: function() {
+        document.getElementById('mobileNavToggle')?.click();
+    },
+    close: function() {
+        document.getElementById('mobileNavClose')?.click();
+    }
+};
