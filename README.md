@@ -301,5 +301,3 @@ This is a client-side only app, perfect for:
 [⭐ Star this project](#) • [🐛 Report Bug](#) • [💡 Request Feature](#)
 
 **Ready to manage your poetry career? Deploy now! 🚀**
-
-</div>
