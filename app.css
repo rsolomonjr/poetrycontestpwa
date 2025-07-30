@@ -159,7 +159,6 @@ body {
     white-space: nowrap;
     flex: 1;
     min-width: 50px;
-    max-width: 80px;
     border: 1px solid var(--border-light);
 }
 
@@ -1562,7 +1561,7 @@ input:checked+.toggle-slider:before {
 
     .nav-tabs {
         flex-wrap: nowrap;
-        justify-content: center;
+        justify-content: space-evenly;
         gap: 0.5rem;
     }
 
