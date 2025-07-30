@@ -400,18 +400,18 @@ function initializeEventListeners() {
     }
 
     // Poem management
-    const addNewPoem = document.getElementById('addNewPoem');
-    const importPoems = document.getElementById('importPoems');
+    const addNewPoemBtn = document.getElementById('addNewPoem');
+    const importPoemsBtn = document.getElementById('importPoems');
     const poemSearch = document.getElementById('poemSearch');
     const tagFilter = document.getElementById('tagFilter');
     const sortPoems = document.getElementById('sortPoems');
     
-    if (addNewPoem) {
-        addNewPoem.addEventListener('click', addNewPoem);
+    if (addNewPoemBtn) {
+        addNewPoemBtn.addEventListener('click', addNewPoem);
     }
     
-    if (importPoems) {
-        importPoems.addEventListener('click', importPoems);
+    if (importPoemsBtn) {
+        importPoemsBtn.addEventListener('click', importPoems);
     }
     
     if (poemSearch) {
@@ -1189,6 +1189,30 @@ function showContestDetails(contest) {
         modalDetails.appendChild(descElement);
     }
     
+    // Add contest website link
+    if (contest.url) {
+        const linkElement = document.createElement('div');
+        linkElement.className = 'detail-item contest-link';
+        linkElement.innerHTML = `
+            <span class="detail-label">More Information</span>
+            <a href="${contest.url}" target="_blank" rel="noopener noreferrer" class="detail-value" style="color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-weight: 500;">
+                Visit Contest Page
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15,3 21,3 21,9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+            </a>
+        `;
+        linkElement.querySelector('a').addEventListener('mouseenter', function() {
+            this.style.textDecoration = 'underline';
+        });
+        linkElement.querySelector('a').addEventListener('mouseleave', function() {
+            this.style.textDecoration = 'none';
+        });
+        modalDetails.appendChild(linkElement);
+    }
+    
     // Add submission tracking
     const relatedSubmissions = submissions.filter(s => s.contestId == contest.id);
     if (relatedSubmissions.length > 0) {
@@ -1227,8 +1251,22 @@ function showContestDetails(contest) {
                 switchTab('poems');
                 return;
             }
-            window.open(contest.url, '_blank');
+            // Open contest website in new tab
+            if (contest.url) {
+                window.open(contest.url, '_blank', 'noopener,noreferrer');
+            }
+            closeModal();
         };
+        
+        // Update button text to be more descriptive
+        submitBtn.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15,3 21,3 21,9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            Go to Contest Page
+        `;
     }
     
     modal.classList.add('show');
@@ -1437,7 +1475,7 @@ function addNewPoem() {
             <div class="modal-actions">
                 <button class="btn" onclick="this.closest('.modal').remove()">Cancel</button>
                 <button class="btn" id="saveDraft">Save as Draft</button>
-                <button class="btn btn-primary" onclick="savePoem()">Save Poem</button>
+                <button class="btn btn-primary" id="savePoemBtn">Save Poem</button>
             </div>
         </div>
     `;
@@ -1461,12 +1499,20 @@ function addNewPoem() {
     
     // Save as draft handler
     const saveDraftBtn = modal.querySelector('#saveDraft');
+    const savePoemBtn = modal.querySelector('#savePoemBtn');
+    
     if (saveDraftBtn) {
         saveDraftBtn.addEventListener('click', function() {
             const poemStatus = document.getElementById('poemStatus');
             if (poemStatus) {
                 poemStatus.value = 'draft';
             }
+            savePoem();
+        });
+    }
+    
+    if (savePoemBtn) {
+        savePoemBtn.addEventListener('click', function() {
             savePoem();
         });
     }
@@ -1482,15 +1528,213 @@ function searchContests() {
 }
 
 function importPoems() {
-    showNotification('Poem import feature coming soon!', 'info');
+    // Create file input for importing poems
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.txt,.md,.json';
+    fileInput.multiple = true;
+    
+    fileInput.onchange = function(event) {
+        const files = event.target.files;
+        if (files.length === 0) return;
+        
+        let importedCount = 0;
+        let totalFiles = files.length;
+        
+        Array.from(files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const content = e.target.result;
+                let poemData;
+                
+                try {
+                    // Try to parse as JSON first (exported poems)
+                    if (file.name.endsWith('.json')) {
+                        const jsonData = JSON.parse(content);
+                        if (Array.isArray(jsonData)) {
+                            // Multiple poems
+                            jsonData.forEach(poem => {
+                                if (poem.title && poem.text) {
+                                    const newPoem = {
+                                        id: `poem-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                                        title: poem.title,
+                                        text: poem.text,
+                                        category: poem.category || 'free-verse',
+                                        status: poem.status || 'draft',
+                                        tags: poem.tags || [],
+                                        notes: poem.notes || '',
+                                        wordCount: poem.wordCount || poem.text.trim().split(/\s+/).length,
+                                        lineCount: poem.lineCount || poem.text.split('\n').length,
+                                        created: poem.created || new Date().toISOString(),
+                                        modified: new Date().toISOString()
+                                    };
+                                    poems.push(newPoem);
+                                    importedCount++;
+                                }
+                            });
+                        } else if (jsonData.title && jsonData.text) {
+                            // Single poem
+                            const newPoem = {
+                                id: `poem-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                                title: jsonData.title,
+                                text: jsonData.text,
+                                category: jsonData.category || 'free-verse',
+                                status: jsonData.status || 'draft',
+                                tags: jsonData.tags || [],
+                                notes: jsonData.notes || '',
+                                wordCount: jsonData.wordCount || jsonData.text.trim().split(/\s+/).length,
+                                lineCount: jsonData.lineCount || jsonData.text.split('\n').length,
+                                created: jsonData.created || new Date().toISOString(),
+                                modified: new Date().toISOString()
+                            };
+                            poems.push(newPoem);
+                            importedCount++;
+                        }
+                    } else {
+                        // Plain text file - create poem from filename and content
+                        const fileName = file.name.replace(/\.(txt|md)$/, '');
+                        const newPoem = {
+                            id: `poem-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                            title: fileName,
+                            text: content,
+                            category: 'free-verse',
+                            status: 'draft',
+                            tags: [],
+                            notes: `Imported from ${file.name}`,
+                            wordCount: content.trim().split(/\s+/).length,
+                            lineCount: content.split('\n').length,
+                            created: new Date().toISOString(),
+                            modified: new Date().toISOString()
+                        };
+                        poems.push(newPoem);
+                        importedCount++;
+                    }
+                } catch (error) {
+                    console.error('Error parsing file:', file.name, error);
+                    // Treat as plain text if JSON parsing fails
+                    const fileName = file.name.replace(/\.(txt|md|json)$/, '');
+                    const newPoem = {
+                        id: `poem-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                        title: fileName,
+                        text: content,
+                        category: 'free-verse',
+                        status: 'draft',
+                        tags: [],
+                        notes: `Imported from ${file.name}`,
+                        wordCount: content.trim().split(/\s+/).length,
+                        lineCount: content.split('\n').length,
+                        created: new Date().toISOString(),
+                        modified: new Date().toISOString()
+                    };
+                    poems.push(newPoem);
+                    importedCount++;
+                }
+                
+                // Check if all files have been processed
+                if (importedCount > 0 && poems.length >= importedCount) {
+                    savePoems();
+                    filteredPoems = [...poems];
+                    renderPoems();
+                    updateTagFilter();
+                    showNotification(`Successfully imported ${importedCount} poem(s)!`, 'success');
+                }
+            };
+            
+            reader.readAsText(file);
+        });
+    };
+    
+    fileInput.click();
 }
 
 function exportData() {
-    showNotification('Data export feature coming soon!', 'info');
+    const exportData = {
+        poems: poems,
+        profile: userProfile,
+        contests: contests.filter(contest => 
+            !sampleContests.some(sample => sample.id === contest.id)
+        ),
+        submissions: submissions,
+        exportDate: new Date().toISOString(),
+        version: '1.0.0'
+    };
+    
+    const dataStr = JSON.stringify(exportData, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `poetry-calendar-backup-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    showNotification('Data exported successfully!', 'success');
 }
 
 function importData() {
-    showNotification('Data import feature coming soon!', 'info');
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.json';
+    
+    fileInput.onchange = function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const importedData = JSON.parse(e.target.result);
+                
+                if (confirm('This will replace all your current data. Are you sure you want to continue?')) {
+                    // Import poems
+                    if (importedData.poems && Array.isArray(importedData.poems)) {
+                        poems = importedData.poems;
+                        filteredPoems = [...poems];
+                        savePoems();
+                        renderPoems();
+                        updateTagFilter();
+                    }
+                    
+                    // Import profile
+                    if (importedData.profile) {
+                        userProfile = importedData.profile;
+                        saveUserProfile();
+                        populateProfileForm();
+                    }
+                    
+                    // Import custom contests (avoid duplicating sample contests)
+                    if (importedData.contests && Array.isArray(importedData.contests)) {
+                        const customContests = importedData.contests.filter(contest => 
+                            !sampleContests.some(sample => sample.id === contest.id)
+                        );
+                        contests = [...sampleContests, ...customContests];
+                        filteredContests = [...contests];
+                        saveContests();
+                        generateCalendar();
+                    }
+                    
+                    // Import submissions
+                    if (importedData.submissions && Array.isArray(importedData.submissions)) {
+                        submissions = importedData.submissions;
+                        saveSubmissions();
+                    }
+                    
+                    updateAppStats();
+                    showNotification('Data imported successfully!', 'success');
+                }
+            } catch (error) {
+                console.error('Error importing data:', error);
+                showNotification('Error importing data. Please check the file format.', 'error');
+            }
+        };
+        
+        reader.readAsText(file);
+    };
+    
+    fileInput.click();
 }
 
 function clearCache() {
