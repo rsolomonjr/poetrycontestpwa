@@ -121,7 +121,7 @@ function generateCurrentContests() {
             deadline: getNextDeadline(currentDate, 3, 31), // March 31st
             prize: 1000,
             fee: 25,
-            url: "https://fourwaybooks.com/contests/",
+            url: "https://fourwaybooks.com/site/levis-prize/",
             favicon: "F",
             description: "$1,000 and publication for poetry collection",
             entryFee: "$25"
