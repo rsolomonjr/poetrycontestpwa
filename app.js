@@ -1648,6 +1648,15 @@ function initializeRichTextEditor(modal) {
         const lines = text.split('\n').length;
         if (wordCountSpan) wordCountSpan.textContent = words;
         if (lineCountSpan) lineCountSpan.textContent = lines;
+        
+        // Debug logging
+        console.log('Editor content:', {
+            innerHTML: editor.innerHTML,
+            innerText: editor.innerText,
+            textContent: editor.textContent,
+            words: words,
+            lines: lines
+        });
     }
     
     // Update word count on input
