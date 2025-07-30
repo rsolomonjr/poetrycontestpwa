@@ -2,13 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Poetry Contest Calendar</title>
     <meta name="description" content="Track poetry contest deadlines and manage submissions">
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iOCIgZmlsbD0iIzYzNjZmMSIvPgo8cGF0aCBkPSJNMTIgMTZoMjR2MkgxMnYtMnptMCA0aDIwdjJIMTJ2LTJ6bTAgNGgxNnYySDE2di0yem0wIDRoMTJ2MkgxMnYtMnoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0zNiAxNnYxNmEyIDIgMCAwIDEtMiAySDEwYTIgMiAwIDAgMS0yLTJWMTZhMiAyIDAgMCAxIDItMmgyNGEyIDIgMCAwIDEgMiAyeiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+Cjwvc3ZnPgo=">
-    <link rel="icon" type="image/png" sizes="48x48" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iOCIgZmlsbD0iIzYzNjZmMSIvPgo8cGF0aCBkPSJNMTIgMTZoMjR2MkgxMnYtMnptMCA0aDIwdjJIMTJ2LTJ6bTAgNGgxNnYySDE2di0yem0wIDRoMTJ2MkgxMnYtMnoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0zNiAxNnYxNmEyIDIgMCAwIDEtMiAySDEwYTIgMiAwIDAgMS0yLTJWMTZhMiAyIDAgMCAxIDItMmgyNGEyIDIgMCAwIDEgMiAyeiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+Cjwvc3ZnPgo=">
     
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#6366f1">
@@ -20,7 +19,7 @@
     <link rel="manifest" href="manifest.json">
     
     <!-- Styles -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="app.css">
 </head>
 <body>
     <div class="app-container">
@@ -29,18 +28,18 @@
                 <div class="logo">
                     📝 Poetry Contest Calendar
                 </div>
-                <div class="nav-tabs">
-                    <button class="nav-tab active" data-tab="calendar">Calendar</button>
-                    <button class="nav-tab" data-tab="poems">My Poems</button>
-                    <button class="nav-tab" data-tab="resources">Resources</button>
-                    <button class="nav-tab" data-tab="profile">Profile</button>
-                    <button class="nav-tab" data-tab="settings">Settings</button>
-                </div>
+                <nav class="nav-tabs" role="navigation" aria-label="Main navigation">
+                    <button class="nav-tab active" data-tab="calendar" aria-label="Calendar view">Cal</button>
+                    <button class="nav-tab" data-tab="poems" aria-label="My poems">Poems</button>
+                    <button class="nav-tab" data-tab="resources" aria-label="Resources">Info</button>
+                    <button class="nav-tab" data-tab="profile" aria-label="Profile">Profile</button>
+                    <button class="nav-tab" data-tab="settings" aria-label="Settings">Settings</button>
+                </nav>
                 <div class="header-actions">
-                    <button class="btn" id="searchContests">
-                        🔍 Search Contests
+                    <button class="btn" id="searchContests" aria-label="Search contests">
+                        🔍 <span class="desktop-only">Search</span>
                     </button>
-                    <button class="theme-toggle" id="themeToggle">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                         🌙
                     </button>
                 </div>
@@ -52,255 +51,228 @@
             <div class="tab-content active" id="calendar">
                 <div class="calendar-header">
                     <div class="month-navigation">
-                        <button class="month-btn" id="prevMonth">‹</button>
-                        <div class="current-month" id="currentMonth">Loading...</div>
-                        <button class="month-btn" id="nextMonth">›</button>
+                        <button class="month-btn" id="prevMonth" aria-label="Previous month">‹</button>
+                        <div class="current-month" id="currentMonth" aria-live="polite">Loading...</div>
+                        <button class="month-btn" id="nextMonth" aria-label="Next month">›</button>
                     </div>
-                    <div style="display: flex; gap: 0.5rem; align-items: center;">
-                        <button class="btn" id="filterContests">🔍 Filter</button>
-                        <button class="btn btn-primary" id="addContest">+ Add Contest</button>
+                    <div class="calendar-actions">
+                        <button class="btn" id="filterContests" aria-label="Filter contests">🔍 <span class="desktop-only">Filter</span></button>
+                        <button class="btn btn-primary" id="addContest" aria-label="Add new contest">+ <span class="desktop-only">Add</span></button>
                     </div>
                 </div>
                 
                 <!-- Filter Panel -->
-                <div id="filterPanel" style="display: none; padding: 1rem; background: var(--surface); border-bottom: 1px solid var(--border);">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                        <div>
-                            <label style="font-size: 0.875rem; color: var(--text-secondary); display: block; margin-bottom: 0.25rem;">Prize Range</label>
-                            <select id="prizeFilter" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.375rem; background: var(--surface); color: var(--text-primary);">
-                                <option value="">All Prizes</option>
-                                <option value="0-500">$0 - $500</option>
-                                <option value="500-1000">$500 - $1,000</option>
-                                <option value="1000-5000">$1,000 - $5,000</option>
-                                <option value="5000+">$5,000+</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label style="font-size: 0.875rem; color: var(--text-secondary); display: block; margin-bottom: 0.25rem;">Entry Fee</label>
-                            <select id="feeFilter" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.375rem; background: var(--surface); color: var(--text-primary);">
-                                <option value="">All Fees</option>
-                                <option value="free">Free Entry</option>
-                                <option value="0-25">$0 - $25</option>
-                                <option value="25-50">$25 - $50</option>
-                                <option value="50+">$50+</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label style="font-size: 0.875rem; color: var(--text-secondary); display: block; margin-bottom: 0.25rem;">Deadline</label>
-                            <select id="deadlineFilter" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.375rem; background: var(--surface); color: var(--text-primary);">
-                                <option value="">All Deadlines</option>
-                                <option value="this-month">This Month</option>
-                                <option value="next-month">Next Month</option>
-                                <option value="3-months">Next 3 Months</option>
-                                <option value="6-months">Next 6 Months</option>
-                            </select>
-                        </div>
-                        <div style="display: flex; align-items: end; gap: 0.5rem;">
-                            <button class="btn" id="applyFilters">Apply</button>
-                            <button class="btn" id="clearFilters">Clear</button>
-                        </div>
+                <div id="filterPanel" style="display: none;" role="region" aria-label="Contest filters">
+                    <div>
+                        <label for="prizeFilter">Prize Range</label>
+                        <select id="prizeFilter" aria-label="Filter by prize range">
+                            <option value="">All Prizes</option>
+                            <option value="0-500">$0 - $500</option>
+                            <option value="500-1000">$500 - $1,000</option>
+                            <option value="1000-5000">$1,000 - $5,000</option>
+                            <option value="5000+">$5,000+</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="feeFilter">Entry Fee</label>
+                        <select id="feeFilter" aria-label="Filter by entry fee">
+                            <option value="">All Fees</option>
+                            <option value="free">Free Entry</option>
+                            <option value="0-25">$0 - $25</option>
+                            <option value="25-50">$25 - $50</option>
+                            <option value="50+">$50+</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="deadlineFilter">Deadline</label>
+                        <select id="deadlineFilter" aria-label="Filter by deadline">
+                            <option value="">All Deadlines</option>
+                            <option value="this-month">This Month</option>
+                            <option value="next-month">Next Month</option>
+                            <option value="3-months">Next 3 Months</option>
+                            <option value="6-months">Next 6 Months</option>
+                        </select>
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="btn btn-primary" id="applyFilters">Apply</button>
+                        <button class="btn" id="clearFilters">Clear</button>
                     </div>
                 </div>
                 
-                <div class="calendar-grid" id="calendarGrid">
+                <div class="calendar-grid" id="calendarGrid" role="grid" aria-label="Calendar">
                     <!-- Calendar will be generated here -->
                 </div>
             </div>
 
             <!-- Poems Tab -->
             <div class="tab-content" id="poems">
-                <div style="padding: 1rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                        <h2 style="margin: 0;">My Poems</h2>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <button class="btn" id="importPoems">📂 Import</button>
-                            <button class="btn btn-primary" id="addNewPoem">+ New Poem</button>
-                        </div>
+                <div class="poems-header">
+                    <h2>My Poems</h2>
+                    <div class="poems-actions">
+                        <button class="btn" id="importPoems" aria-label="Import poems">📂 <span class="desktop-only">Import</span></button>
+                        <button class="btn btn-primary" id="addNewPoem" aria-label="Add new poem">+ <span class="desktop-only">New</span></button>
                     </div>
-                    
-                    <div style="display: flex; gap: 1rem; margin-bottom: 1rem; align-items: center; flex-wrap: wrap;">
-                        <input type="search" id="poemSearch" placeholder="Search poems..." style="flex: 1; min-width: 200px; padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.375rem; background: var(--surface); color: var(--text-primary);">
-                        <select id="tagFilter" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.375rem; background: var(--surface); color: var(--text-primary);">
-                            <option value="">All Tags</option>
-                        </select>
-                        <select id="sortPoems" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.375rem; background: var(--surface); color: var(--text-primary);">
-                            <option value="modified">Recently Modified</option>
-                            <option value="created">Recently Created</option>
-                            <option value="title">Title A-Z</option>
-                            <option value="wordcount">Word Count</option>
-                        </select>
-                    </div>
-                    
-                    <div id="poemsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;">
-                        <!-- Poems will be populated here -->
-                    </div>
-                    
-                    <div id="noPoemsMessage" style="text-align: center; padding: 3rem; color: var(--text-secondary); display: none;">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">📝</div>
-                        <h3>No poems yet</h3>
-                        <p>Start building your poetry collection by adding your first poem!</p>
-                        <button class="btn btn-primary" onclick="document.getElementById('addNewPoem').click()">Add First Poem</button>
-                    </div>
+                </div>
+                
+                <div class="poems-filters">
+                    <input type="search" id="poemSearch" placeholder="Search poems..." aria-label="Search poems">
+                    <select id="tagFilter" aria-label="Filter by tag">
+                        <option value="">All Tags</option>
+                    </select>
+                    <select id="sortPoems" aria-label="Sort poems">
+                        <option value="modified">Recently Modified</option>
+                        <option value="created">Recently Created</option>
+                        <option value="title">Title A-Z</option>
+                        <option value="wordcount">Word Count</option>
+                    </select>
+                </div>
+                
+                <div id="poemsGrid" role="list" aria-label="Poems collection">
+                    <!-- Poems will be populated here -->
+                </div>
+                
+                <div id="noPoemsMessage" class="no-content" style="display: none;">
+                    <div class="no-content-icon">📝</div>
+                    <h3>No poems yet</h3>
+                    <p>Start building your poetry collection by adding your first poem!</p>
+                    <button class="btn btn-primary" onclick="document.getElementById('addNewPoem').click()">Add First Poem</button>
                 </div>
             </div>
 
             <!-- Resources Tab -->
             <div class="tab-content" id="resources">
-                <div style="padding: 2rem; max-width: 1000px; margin: 0 auto;">
-                    <div style="text-align: center; margin-bottom: 3rem;">
-                        <h2 style="margin-bottom: 1rem; color: var(--text-primary);">Poetry Contest Resources</h2>
-                        <p style="color: var(--text-secondary); font-size: 1.125rem; max-width: 600px; margin: 0 auto;">
-                            Discover new poetry contests, submission opportunities, and literary markets from these trusted databases and resources.
+                <div class="resources-header">
+                    <h2>Poetry Contest Resources</h2>
+                    <p>Discover new poetry contests, submission opportunities, and literary markets from these trusted databases and resources.</p>
+                </div>
+
+                <div class="resources-grid" role="list" aria-label="Resource links">
+                    <!-- Poets & Writers -->
+                    <div class="resource-card" role="listitem" tabindex="0" onclick="openResource('https://www.pw.org/grants')" onkeydown="if(event.key==='Enter'||event.key===' ')openResource('https://www.pw.org/grants')">
+                        <div class="resource-header">
+                            <div class="resource-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">P&W</div>
+                            <div class="resource-info">
+                                <h3>Poets & Writers</h3>
+                                <div class="subtitle">Literary Grants & Awards Database</div>
+                            </div>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary); margin-left: auto;">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15,3 21,3 21,9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </div>
+                        <p class="resource-description">
+                            Trusted resource for legitimate contests with detailed reviews, scam warnings, and expert recommendations for poets.
                         </p>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
-                        <!-- Poets & Writers -->
-                        <div class="resource-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; transition: all 0.3s ease; cursor: pointer;" onclick="openResource('https://www.pw.org/grants')">
-                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.25rem;">P&W</div>
-                                <div>
-                                    <h3 style="margin: 0; font-size: 1.125rem; font-weight: 600;">Poets & Writers</h3>
-                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Literary Grants & Awards Database</div>
-                                </div>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary); margin-left: auto;">
-                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                    <polyline points="15,3 21,3 21,9"></polyline>
-                                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                                </svg>
+                    <!-- NewPages.com -->
+                    <div class="resource-card" role="listitem" tabindex="0" onclick="openResource('https://www.newpages.com/guide-submission-opportunities/big-list-of-writing-contests/')" onkeydown="if(event.key==='Enter'||event.key===' ')openResource('https://www.newpages.com/guide-submission-opportunities/big-list-of-writing-contests/')">
+                        <div class="resource-header">
+                            <div class="resource-icon" style="background: linear-gradient(135deg, #f59e0b, #f97316);">NP</div>
+                            <div class="resource-info">
+                                <h3>NewPages.com</h3>
+                                <div class="subtitle">Big List of Writing Contests</div>
                             </div>
-                            <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5; margin: 0;">
-                                Comprehensive database of grants, awards, and contests for poets and writers. Features detailed submission guidelines and deadlines.
-                            </p>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary); margin-left: auto;">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15,3 21,3 21,9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
                         </div>
-
-                        <!-- Winning Writers -->
-                        <div class="resource-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; transition: all 0.3s ease; cursor: pointer;" onclick="openResource('https://winningwriters.com/resources/literary-magazine-database-at-poets-writers')">
-                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #059669, #10b981); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.25rem;">WW</div>
-                                <div>
-                                    <h3 style="margin: 0; font-size: 1.125rem; font-weight: 600;">Winning Writers</h3>
-                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Contest Reviews & Recommendations</div>
-                                </div>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary); margin-left: auto;">
-                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                    <polyline points="15,3 21,3 21,9"></polyline>
-                                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                                </svg>
-                            </div>
-                            <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5; margin: 0;">
-                                Trusted resource for legitimate contests with detailed reviews, scam warnings, and expert recommendations for poets.
-                            </p>
-                        </div>
-
-                        <!-- NewPages.com -->
-                        <div class="resource-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; transition: all 0.3s ease; cursor: pointer;" onclick="openResource('https://www.newpages.com/guide-submission-opportunities/big-list-of-writing-contests/')">
-                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #f59e0b, #f97316); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.25rem;">NP</div>
-                                <div>
-                                    <h3 style="margin: 0; font-size: 1.125rem; font-weight: 600;">NewPages.com</h3>
-                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Big List of Writing Contests</div>
-                                </div>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary); margin-left: auto;">
-                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                    <polyline points="15,3 21,3 21,9"></polyline>
-                                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                                </svg>
-                            </div>
-                            <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5; margin: 0;">
-                                Extensive directory of writing contests, literary magazines, and submission opportunities organized by genre and deadline.
-                            </p>
-                        </div>
-
-                        <!-- The Submission Grinder -->
-                        <div class="resource-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; transition: all 0.3s ease; cursor: pointer;" onclick="openResource('https://thegrinder.diabolicalplots.com/')">
-                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #7c3aed, #a855f7); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.25rem;">SG</div>
-                                <div>
-                                    <h3 style="margin: 0; font-size: 1.125rem; font-weight: 600;">The Submission Grinder</h3>
-                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Market Database & Tracker</div>
-                                </div>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary); margin-left: auto;">
-                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                    <polyline points="15,3 21,3 21,9"></polyline>
-                                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                                </svg>
-                            </div>
-                            <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5; margin: 0;">
-                                Free database of short fiction and poetry markets with submission tracking, response time statistics, and market analysis.
-                            </p>
-                        </div>
-
-                        <!-- Submittable -->
-                        <div class="resource-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; transition: all 0.3s ease; cursor: pointer;" onclick="openResource('https://manager.submittable.com/opportunities/discover?tags=poetry')">
-                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #2563eb, #3b82f6); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.25rem;">S</div>
-                                <div>
-                                    <h3 style="margin: 0; font-size: 1.125rem; font-weight: 600;">Submittable</h3>
-                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Discover Opportunities</div>
-                                </div>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary); margin-left: auto;">
-                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                    <polyline points="15,3 21,3 21,9"></polyline>
-                                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                                </svg>
-                            </div>
-                            <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5; margin: 0;">
-                                Platform used by many literary magazines and contests. Browse poetry opportunities with integrated submission system.
-                            </p>
-                        </div>
-
-                        <!-- Chill Subs -->
-                        <div class="resource-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; transition: all 0.3s ease; cursor: pointer;" onclick="openResource('https://www.chillsubs.com/')">
-                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #06b6d4, #0891b2); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.25rem;">CS</div>
-                                <div>
-                                    <h3 style="margin: 0; font-size: 1.125rem; font-weight: 600;">Chill Subs</h3>
-                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Curated Submission Calls</div>
-                                </div>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary); margin-left: auto;">
-                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                    <polyline points="15,3 21,3 21,9"></polyline>
-                                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                                </svg>
-                            </div>
-                            <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5; margin: 0;">
-                                Curated weekly newsletter featuring quality submission opportunities for poetry, fiction, and creative writing.
-                            </p>
-                        </div>
+                        <p class="resource-description">
+                            Extensive directory of writing contests, literary magazines, and submission opportunities organized by genre and deadline.
+                        </p>
                     </div>
 
-                    <!-- Additional Tips Section -->
-                    <div style="margin-top: 3rem; padding: 2rem; background: var(--background); border-radius: 0.75rem; border: 1px solid var(--border);">
-                        <h3 style="margin-bottom: 1.5rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
-                            <span style="font-size: 1.5rem;">💡</span>
-                            Tips for Finding Contest Opportunities
-                        </h3>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
-                            <div>
-                                <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Research Thoroughly</h4>
-                                <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0;">
-                                    Check contest history, past winners, and judge credentials before submitting.
-                                </p>
+                    <!-- The Submission Grinder -->
+                    <div class="resource-card" role="listitem" tabindex="0" onclick="openResource('https://thegrinder.diabolicalplots.com/')" onkeydown="if(event.key==='Enter'||event.key===' ')openResource('https://thegrinder.diabolicalplots.com/')">
+                        <div class="resource-header">
+                            <div class="resource-icon" style="background: linear-gradient(135deg, #7c3aed, #a855f7);">SG</div>
+                            <div class="resource-info">
+                                <h3>The Submission Grinder</h3>
+                                <div class="subtitle">Market Database & Tracker</div>
                             </div>
-                            <div>
-                                <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Watch for Red Flags</h4>
-                                <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0;">
-                                    Avoid contests with excessive fees, vague guidelines, or no publishing history.
-                                </p>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary); margin-left: auto;">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15,3 21,3 21,9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </div>
+                        <p class="resource-description">
+                            Free database of short fiction and poetry markets with submission tracking, response time statistics, and market analysis.
+                        </p>
+                    </div>
+
+                    <!-- Submittable -->
+                    <div class="resource-card" role="listitem" tabindex="0" onclick="openResource('https://manager.submittable.com/opportunities/discover?tags=poetry')" onkeydown="if(event.key==='Enter'||event.key===' ')openResource('https://manager.submittable.com/opportunities/discover?tags=poetry')">
+                        <div class="resource-header">
+                            <div class="resource-icon" style="background: linear-gradient(135deg, #2563eb, #3b82f6);">S</div>
+                            <div class="resource-info">
+                                <h3>Submittable</h3>
+                                <div class="subtitle">Discover Opportunities</div>
                             </div>
-                            <div>
-                                <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Track Submissions</h4>
-                                <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0;">
-                                    Use this app's submission tracker to monitor your entries and responses.
-                                </p>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary); margin-left: auto;">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15,3 21,3 21,9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </div>
+                        <p class="resource-description">
+                            Platform used by many literary magazines and contests. Browse poetry opportunities with integrated submission system.
+                        </p>
+                    </div>
+
+                    <!-- Chill Subs -->
+                    <div class="resource-card" role="listitem" tabindex="0" onclick="openResource('https://www.chillsubs.com/')" onkeydown="if(event.key==='Enter'||event.key===' ')openResource('https://www.chillsubs.com/')">
+                        <div class="resource-header">
+                            <div class="resource-icon" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">CS</div>
+                            <div class="resource-info">
+                                <h3>Chill Subs</h3>
+                                <div class="subtitle">Curated Submission Calls</div>
                             </div>
-                            <div>
-                                <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Set a Budget</h4>
-                                <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0;">
-                                    Entry fees add up quickly. Set monthly limits and prioritize quality contests.
-                                </p>
-                            </div>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary); margin-left: auto;">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15,3 21,3 21,9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </div>
+                        <p class="resource-description">
+                            Curated weekly newsletter featuring quality submission opportunities for poetry, fiction, and creative writing.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Additional Tips Section -->
+                <div style="margin-top: 3rem; padding: 2rem; background: var(--background); border-radius: 0.75rem; border: 1px solid var(--border);">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="font-size: 1.5rem;">💡</span>
+                        Tips for Finding Contest Opportunities
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <div>
+                            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Research Thoroughly</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0;">
+                                Check contest history, past winners, and judge credentials before submitting.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Watch for Red Flags</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0;">
+                                Avoid contests with excessive fees, vague guidelines, or no publishing history.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Track Submissions</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0;">
+                                Use this app's submission tracker to monitor your entries and responses.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Set a Budget</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0;">
+                                Entry fees add up quickly. Set monthly limits and prioritize quality contests.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -308,75 +280,75 @@
 
             <!-- Profile Tab -->
             <div class="tab-content" id="profile">
-                <div style="padding: 2rem; max-width: 600px; margin: 0 auto;">
-                    <h2 style="margin-bottom: 2rem;">Author Profile</h2>
+                <div style="padding: 1rem; max-width: 600px; margin: 0 auto;">
+                    <h2>Author Profile</h2>
                     
-                    <div style="display: flex; flex-direction: column; gap: 2rem;">
+                    <div class="profile-form">
                         <!-- Profile Photo Section -->
-                        <div style="text-align: center;">
-                            <div id="profilePhotoContainer" style="width: 150px; height: 150px; margin: 0 auto 1rem; border-radius: 50%; background: var(--background); border: 3px dashed var(--border); display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer;" onclick="document.getElementById('profilePhotoInput').click()">
-                                <span style="color: var(--text-secondary); font-size: 3rem;">📷</span>
-                                <img id="profilePhoto" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                        <div class="profile-photo-section">
+                            <div id="profilePhotoContainer" onclick="document.getElementById('profilePhotoInput').click()">
+                                <span>📷</span>
+                                <img id="profilePhoto" style="width: 100%; height: 100%; object-fit: cover; display: none;" alt="Profile photo">
                             </div>
                             <input type="file" id="profilePhotoInput" accept="image/*" style="display: none;">
                             <button class="btn" onclick="document.getElementById('profilePhotoInput').click()">Change Photo</button>
                         </div>
                         
                         <!-- Basic Info -->
-                        <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Full Name</label>
-                            <input type="text" id="authorName" placeholder="Your full name" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; background: var(--surface); color: var(--text-primary);">
+                        <div class="form-group">
+                            <label for="authorName">Full Name</label>
+                            <input type="text" id="authorName" placeholder="Your full name">
                         </div>
                         
-                        <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Email</label>
-                            <input type="email" id="authorEmail" placeholder="your.email@example.com" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; background: var(--surface); color: var(--text-primary);">
+                        <div class="form-group">
+                            <label for="authorEmail">Email</label>
+                            <input type="email" id="authorEmail" placeholder="your.email@example.com">
                         </div>
                         
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                            <div>
-                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Phone (Optional)</label>
-                                <input type="tel" id="authorPhone" placeholder="+1 (555) 123-4567" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; background: var(--surface); color: var(--text-primary);">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="authorPhone">Phone (Optional)</label>
+                                <input type="tel" id="authorPhone" placeholder="+1 (555) 123-4567">
                             </div>
-                            <div>
-                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Website (Optional)</label>
-                                <input type="url" id="authorWebsite" placeholder="https://yourwebsite.com" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; background: var(--surface); color: var(--text-primary);">
+                            <div class="form-group">
+                                <label for="authorWebsite">Website (Optional)</label>
+                                <input type="url" id="authorWebsite" placeholder="https://yourwebsite.com">
                             </div>
                         </div>
                         
                         <!-- Bio Section -->
-                        <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Author Bio</label>
-                            <textarea id="authorBio" rows="6" placeholder="Write a brief biography about yourself as a poet. This will be used for contest submissions..." style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; background: var(--surface); color: var(--text-primary); resize: vertical;"></textarea>
+                        <div class="form-group">
+                            <label for="authorBio">Author Bio</label>
+                            <textarea id="authorBio" rows="6" placeholder="Write a brief biography about yourself as a poet. This will be used for contest submissions..."></textarea>
                             <div style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.25rem;">
                                 <span id="bioWordCount">0</span> words
                             </div>
                         </div>
                         
                         <!-- Publication History -->
-                        <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Publication History (Optional)</label>
-                            <textarea id="publicationHistory" rows="4" placeholder="List your notable publications, awards, or recognition..." style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; background: var(--surface); color: var(--text-primary); resize: vertical;"></textarea>
+                        <div class="form-group">
+                            <label for="publicationHistory">Publication History (Optional)</label>
+                            <textarea id="publicationHistory" rows="4" placeholder="List your notable publications, awards, or recognition..."></textarea>
                         </div>
                         
                         <!-- Social Media -->
                         <div>
                             <h3 style="margin-bottom: 1rem;">Social Media (Optional)</h3>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                                <div>
-                                    <label style="display: block; margin-bottom: 0.25rem; font-weight: 500;">Twitter/X</label>
-                                    <input type="text" id="authorTwitter" placeholder="@yourusername" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.375rem; background: var(--surface); color: var(--text-primary);">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="authorTwitter">Twitter/X</label>
+                                    <input type="text" id="authorTwitter" placeholder="@yourusername">
                                 </div>
-                                <div>
-                                    <label style="display: block; margin-bottom: 0.25rem; font-weight: 500;">Instagram</label>
-                                    <input type="text" id="authorInstagram" placeholder="@yourusername" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.375rem; background: var(--surface); color: var(--text-primary);">
+                                <div class="form-group">
+                                    <label for="authorInstagram">Instagram</label>
+                                    <input type="text" id="authorInstagram" placeholder="@yourusername">
                                 </div>
                             </div>
                         </div>
                         
                         <!-- Save Button -->
                         <div style="text-align: center; margin-top: 1rem;">
-                            <button class="btn btn-primary" id="saveProfile" style="padding: 0.75rem 2rem;">Save Profile</button>
+                            <button class="btn btn-primary full-width" id="saveProfile">Save Profile</button>
                         </div>
                     </div>
                 </div>
@@ -384,66 +356,74 @@
 
             <!-- Settings Tab -->
             <div class="tab-content" id="settings">
-                <div style="padding: 2rem; max-width: 800px; margin: 0 auto;">
-                    <h2 style="margin-bottom: 2rem;">Settings</h2>
+                <div style="padding: 1rem; max-width: 800px; margin: 0 auto;">
+                    <h2>Settings</h2>
                     
                     <div style="display: flex; flex-direction: column; gap: 2rem;">
                         <!-- Appearance -->
-                        <div style="padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem;">
-                            <h3 style="margin-bottom: 1rem;">Appearance</h3>
-                            <div class="detail-item">
-                                <span class="detail-label">Theme</span>
-                                <select id="themeSelect" style="padding: 0.5rem; border-radius: 0.375rem; border: 1px solid var(--border); background: var(--surface); color: var(--text-primary);">
-                                    <option value="system">System</option>
-                                    <option value="light">Light</option>
-                                    <option value="dark">Dark</option>
-                                </select>
+                        <div class="settings-section">
+                            <h3>Appearance</h3>
+                            <div class="setting-item">
+                                <div class="setting-label">Theme</div>
+                                <div class="setting-control">
+                                    <select id="themeSelect">
+                                        <option value="system">System</option>
+                                        <option value="light">Light</option>
+                                        <option value="dark">Dark</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         
                         <!-- Privacy & Security -->
-                        <div style="padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem;">
-                            <h3 style="margin-bottom: 1rem;">Privacy & Security</h3>
+                        <div class="settings-section">
+                            <h3>Privacy & Security</h3>
                             
-                            <div class="detail-item">
+                            <div class="setting-item">
                                 <div>
-                                    <span class="detail-label">External Storage Access</span>
-                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Allow app to access device storage for importing/exporting</div>
+                                    <div class="setting-label">External Storage Access</div>
+                                    <div class="setting-description">Allow app to access device storage for importing/exporting</div>
                                 </div>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="storageAccess">
-                                    <span class="toggle-slider"></span>
-                                </label>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="storageAccess">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
                             </div>
                             
-                            <div class="detail-item">
+                            <div class="setting-item">
                                 <div>
-                                    <span class="detail-label">Auto-backup</span>
-                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Automatically backup poems and data</div>
+                                    <div class="setting-label">Auto-backup</div>
+                                    <div class="setting-description">Automatically backup poems and data</div>
                                 </div>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="autoBackup" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="autoBackup" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
                             </div>
                             
-                            <div class="detail-item">
+                            <div class="setting-item">
                                 <div>
-                                    <span class="detail-label">Email Integration</span>
-                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Enable email client integration for submissions</div>
+                                    <div class="setting-label">Email Integration</div>
+                                    <div class="setting-description">Enable email client integration for submissions</div>
                                 </div>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="emailIntegration" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="emailIntegration" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         
                         <!-- Data Management -->
-                        <div style="padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem;">
-                            <h3 style="margin-bottom: 1rem;">Data Management</h3>
+                        <div class="settings-section">
+                            <h3>Data Management</h3>
                             
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                            <div class="data-actions">
                                 <button class="btn" id="exportData">📤 Export All Data</button>
                                 <button class="btn" id="importData">📥 Import Data</button>
                                 <button class="btn" id="clearCache">🗑️ Clear Cache</button>
@@ -452,26 +432,28 @@
                         </div>
                         
                         <!-- Notifications -->
-                        <div style="padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem;">
-                            <h3 style="margin-bottom: 1rem;">Notifications</h3>
+                        <div class="settings-section">
+                            <h3>Notifications</h3>
                             
-                            <div class="detail-item">
+                            <div class="setting-item">
                                 <div>
-                                    <span class="detail-label">Contest Deadline Reminders</span>
-                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Get notified before contest deadlines</div>
+                                    <div class="setting-label">Contest Deadline Reminders</div>
+                                    <div class="setting-description">Get notified before contest deadlines</div>
                                 </div>
-                                <select style="padding: 0.5rem; border-radius: 0.375rem; border: 1px solid var(--border); background: var(--surface); color: var(--text-primary);">
-                                    <option value="1">1 day before</option>
-                                    <option value="3" selected>3 days before</option>
-                                    <option value="7">1 week before</option>
-                                    <option value="off">Off</option>
-                                </select>
+                                <div class="setting-control">
+                                    <select>
+                                        <option value="1">1 day before</option>
+                                        <option value="3" selected>3 days before</option>
+                                        <option value="7">1 week before</option>
+                                        <option value="off">Off</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         
                         <!-- App Info -->
-                        <div style="padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem;">
-                            <h3 style="margin-bottom: 1rem;">App Information</h3>
+                        <div class="settings-section">
+                            <h3>App Information</h3>
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; font-size: 0.875rem;">
                                 <div>
                                     <strong>Version:</strong> 1.0.0
@@ -530,3 +512,22 @@
     <script src="app.js"></script>
 </body>
 </html>
+                            Comprehensive database of grants, awards, and contests for poets and writers. Features detailed submission guidelines and deadlines.
+                        </p>
+                    </div>
+
+                    <!-- Winning Writers -->
+                    <div class="resource-card" role="listitem" tabindex="0" onclick="openResource('https://winningwriters.com/resources/literary-magazine-database-at-poets-writers')" onkeydown="if(event.key==='Enter'||event.key===' ')openResource('https://winningwriters.com/resources/literary-magazine-database-at-poets-writers')">
+                        <div class="resource-header">
+                            <div class="resource-icon" style="background: linear-gradient(135deg, #059669, #10b981);">WW</div>
+                            <div class="resource-info">
+                                <h3>Winning Writers</h3>
+                                <div class="subtitle">Contest Reviews & Recommendations</div>
+                            </div>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary); margin-left: auto;">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15,3 21,3 21,9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </div>
+                        <p class="resource-description">

@@ -1557,7 +1557,7 @@ input:checked + .toggle-slider:before {
         max-width: 600px;
         padding: 2rem;
     }
-    
+
     .modal-actions {
         flex-direction: row;
         justify-content: flex-end;
@@ -1744,7 +1744,7 @@ input:checked + .toggle-slider:before {
     
     [data-theme="dark"] {
         --border: #ffffff;
-        --text-primary: #ffffff;
+        --text-primary: #ffffff;  
         --text-secondary: #cccccc;
     }
 }
