@@ -818,6 +818,7 @@ body {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
+    margin: 2em;
 }
 
 .poem-card {
