@@ -761,6 +761,7 @@ function addNewPoem(poemIdToEdit = null) {
 }
 
 // Modified savePoem to handle updates or new poems based on poemId
+// Modified savePoem to handle updates or new poems based on poemId
 function savePoem(poemId = null) {
     const title = document.getElementById('poemTitle')?.value;
     const editor = document.getElementById('poemTextEditor');
@@ -840,10 +841,18 @@ function savePoem(poemId = null) {
             poems[index] = { ...poems[index], ...poemData };
         }
     } else {
-        // Create new poem
-        poemData.id = `poem-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-        poemData.created = new Date().toISOString();
-        poems.push(poemData);
+        // Check for existing poem with the same title
+        const existingPoemIndex = poems.findIndex(p => p.title.toLowerCase() === poemData.title.toLowerCase());
+        if (existingPoemIndex !== -1) {
+            // Update the existing poem instead of creating a new one
+            poems[existingPoemIndex] = { ...poems[existingPoemIndex], ...poemData };
+            showNotification('Poem with this title already exists. Updated existing poem.', 'info');
+        } else {
+            // Create new poem
+            poemData.id = `poem-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+            poemData.created = new Date().toISOString();
+            poems.push(poemData);
+        }
     }
 
     savePoems();
