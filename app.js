@@ -375,6 +375,9 @@ function initializeEventListeners() {
     // Contest management
     const addContest = document.getElementById('addContest');
     const searchContests = document.getElementById('searchContests');
+    const filterContests = document.getElementById('filterContests');
+    const applyFilters = document.getElementById('applyFilters');
+    const clearFilters = document.getElementById('clearFilters');
     
     if (addContest) {
         addContest.addEventListener('click', addCustomContest);
@@ -382,6 +385,18 @@ function initializeEventListeners() {
     
     if (searchContests) {
         searchContests.addEventListener('click', searchContests);
+    }
+
+    if (filterContests) {
+        filterContests.addEventListener('click', toggleFilterPanel);
+    }
+
+    if (applyFilters) {
+        applyFilters.addEventListener('click', applyFilters);
+    }
+
+    if (clearFilters) {
+        clearFilters.addEventListener('click', clearFilters);
     }
 
     // Poem management
@@ -399,6 +414,71 @@ function initializeEventListeners() {
         importPoems.addEventListener('click', importPoems);
     }
     
+    if (poemSearch) {
+        poemSearch.addEventListener('input', filterPoems);
+    }
+    
+    if (tagFilter) {
+        tagFilter.addEventListener('change', filterPoems);
+    }
+    
+    if (sortPoems) {
+        sortPoems.addEventListener('change', filterPoems);
+    }
+
+    // Profile management
+    const saveProfile = document.getElementById('saveProfile');
+    const profilePhotoInput = document.getElementById('profilePhotoInput');
+    const authorBio = document.getElementById('authorBio');
+    
+    if (saveProfile) {
+        saveProfile.addEventListener('click', saveProfile);
+    }
+    
+    if (profilePhotoInput) {
+        profilePhotoInput.addEventListener('change', handleProfilePhotoUpload);
+    }
+    
+    if (authorBio) {
+        authorBio.addEventListener('input', updateBioWordCount);
+    }
+
+    // Settings
+    const exportData = document.getElementById('exportData');
+    const importData = document.getElementById('importData');
+    const clearCache = document.getElementById('clearCache');
+    const resetApp = document.getElementById('resetApp');
+    
+    if (exportData) {
+        exportData.addEventListener('click', exportData);
+    }
+    
+    if (importData) {
+        importData.addEventListener('click', importData);
+    }
+    
+    if (clearCache) {
+        clearCache.addEventListener('click', clearCache);
+    }
+    
+    if (resetApp) {
+        resetApp.addEventListener('click', resetApp);
+    }
+}
+
+function savePoem(existingPoem = null) {
+    const title = document.getElementById('poemTitle')?.value;
+    const text = document.getElementById('poemText')?.value;
+    const category = document.getElementById('poemCategory')?.value;
+    const status = document.getElementById('poemStatus')?.value;
+    const tags = document.getElementById('poemTags')?.value.split(',').map(tag => tag.trim()).filter(tag => tag);
+    const notes = document.getElementById('poemNotes')?.value;
+
+    if (!title || !text) {
+        alert('Please fill in the title and poem text');
+        return;
+    }
+
     const words = text.trim().split(/\s+/).length;
     const lines = text.split('\n').length;
 
@@ -955,80 +1035,6 @@ function contactContest(contestId) {
     }
 }
 
-// Placeholder functions for features to be implemented
-function addCustomContest() {
-    showNotification('Custom contest feature coming soon!', 'info');
-}
-
-function searchContests() {
-    showNotification('Contest search feature coming soon!', 'info');
-}
-
-function importPoems() {
-    showNotification('Poem import feature coming soon!', 'info');
-}
-
-function exportData() {
-    showNotification('Data export feature coming soon!', 'info');
-}
-
-function importData() {
-    showNotification('Data import feature coming soon!', 'info');
-}
-
-function clearCache() {
-    showNotification('Cache clear feature coming soon!', 'info');
-}
-
-function resetApp() {
-    showNotification('App reset feature coming soon!', 'info');
-}
-
-function submitToContests(poemId) {
-    showNotification('Contest submission feature coming soon!', 'info');
-}
-
-// PWA Service Worker Registration
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js')
-            .then(function(registration) {
-                console.log('ServiceWorker registration successful');
-            })
-            .catch(function(err) {
-                console.log('ServiceWorker registration failed: ', err);
-            });
-    });
-}
-
-// Handle install prompt
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    
-    // Show install button
-    const installBtn = document.createElement('button');
-    installBtn.className = 'btn';
-    installBtn.innerHTML = '📱 Install App';
-    installBtn.onclick = () => {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted the install prompt');
-            }
-            deferredPrompt = null;
-            installBtn.remove();
-        });
-    };
-    
-    const headerActions = document.querySelector('.header-actions');
-    const themeToggle = document.getElementById('themeToggle');
-    if (headerActions && themeToggle) {
-        headerActions.insertBefore(installBtn, themeToggle);
-    }
-});
-
 // Tab Management
 function switchTab(tabName) {
     // Update tab buttons
@@ -1466,298 +1472,76 @@ function addNewPoem() {
     }
 }
 
-function savePoem(existingPoem = null) {
-    const title = document.getElementById('poemTitle')?.value;
-    const text = document.getElementById('poemText')?.value;
-    const category = document.getElementById('poemCategory')?.value;
-    const status = document.getElementById('poemStatus')?.value;
-    const tags = document.getElementById('poemTags')?.value.split(',').map(tag => tag.trim()).filter(tag => tag);
-    const notes = document.getElementById('poemNotes')?.value;
-
-    if (!title || !text) {
-        alert('Please fill in the title and poem text');
-        return;
-    }
-
-    const words = text.trim// Real contest data based on current poetry contest landscape
-const sampleContests = [
-    {
-        id: 1,
-        name: "Rattle Poetry Prize",
-        organization: "Rattle Magazine",
-        deadline: "2025-07-15",
-        prize: 15000,
-        fee: 25,
-        url: "https://rattle.com/page/poetryprize/",
-        favicon: "R",
-        description: "$15,000 for a single poem plus publication. Ten finalists receive $500 each.",
-        entryFee: "One-year subscription"
-    },
-    {
-        id: 2,
-        name: "National Poetry Competition",
-        organization: "The Poetry Society",
-        deadline: "2025-10-31",
-        prize: 5000,
-        fee: 8,
-        url: "https://poetrysociety.org.uk/competitions/national-poetry-competition/",
-        favicon: "P",
-        description: "One of the world's most prestigious poetry prizes. £5,000 first prize.",
-        entryFee: "£8 first poem"
-    },
-    {
-        id: 3,
-        name: "Tom Howard Poetry Contest",
-        organization: "Winning Writers",
-        deadline: "2025-09-30",
-        prize: 3000,
-        fee: 25,
-        url: "https://winningwriters.com/our-contests/tom-howard-margaret-reid-poetry-contest",
-        favicon: "W",
-        description: "$3,000 first prize. Accepts both published and unpublished poetry.",
-        entryFee: "$25"
-    }
-];
-
-// App state
-let currentDate = new Date();
-let contests = [...sampleContests];
-let filteredContests = [...sampleContests];
-let poems = [];
-let filteredPoems = [];
-let userProfile = {};
-let submissions = [];
-let currentTheme = localStorage.getItem('theme') || 'system';
-let activeFilters = {
-    prize: '',
-    fee: '',
-    deadline: ''
-};
-
-// Initialize app
-document.addEventListener('DOMContentLoaded', function() {
-    initializeTheme();
-    generateCalendar();
-    initializeEventListeners();
-    loadSavedContests();
-    loadPoems();
-    loadUserProfile();
-    loadSubmissions();
-    updateAppStats();
-    
-    // Initialize filter panel as hidden
-    const filterPanel = document.getElementById('filterPanel');
-    if (filterPanel) {
-        filterPanel.style.display = 'none';
-    }
-    
-    // Add submissions tab after DOM is ready
-    setTimeout(addSubmissionsTab, 100);
-});
-
-// Theme Management
-function initializeTheme() {
-    const themeSelect = document.getElementById('themeSelect');
-    if (themeSelect) {
-        themeSelect.value = currentTheme;
-    }
-    applyTheme(currentTheme);
+// Placeholder functions for features to be implemented
+function addCustomContest() {
+    showNotification('Custom contest feature coming soon!', 'info');
 }
 
-function applyTheme(theme) {
-    const body = document.body;
-    const themeToggle = document.getElementById('themeToggle');
-    
-    body.removeAttribute('data-theme');
-    
-    if (theme === 'dark') {
-        body.setAttribute('data-theme', 'dark');
-        if (themeToggle) themeToggle.textContent = '☀️';
-    } else if (theme === 'light') {
-        if (themeToggle) themeToggle.textContent = '🌙';
-    } else { // system
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (prefersDark) {
-            body.setAttribute('data-theme', 'dark');
-            if (themeToggle) themeToggle.textContent = '☀️';
-        } else {
-            if (themeToggle) themeToggle.textContent = '🌙';
-        }
-    }
+function searchContests() {
+    showNotification('Contest search feature coming soon!', 'info');
 }
 
-function toggleTheme() {
-    const themes = ['system', 'light', 'dark'];
-    const currentIndex = themes.indexOf(currentTheme);
-    currentTheme = themes[(currentIndex + 1) % themes.length];
-    
-    localStorage.setItem('theme', currentTheme);
-    const themeSelect = document.getElementById('themeSelect');
-    if (themeSelect) {
-        themeSelect.value = currentTheme;
-    }
-    applyTheme(currentTheme);
+function importPoems() {
+    showNotification('Poem import feature coming soon!', 'info');
 }
 
-// Data Loading Functions
-function loadSavedContests() {
-    const saved = localStorage.getItem('poetryContests');
-    if (saved) {
-        try {
-            const savedContests = JSON.parse(saved);
-            contests = [...sampleContests, ...savedContests];
-            filteredContests = [...contests];
-            generateCalendar();
-        } catch (error) {
-            console.error('Error loading saved contests:', error);
-        }
-    }
+function exportData() {
+    showNotification('Data export feature coming soon!', 'info');
 }
 
-function saveContests() {
-    try {
-        const contestsToSave = contests.filter(contest => 
-            !sampleContests.some(sample => sample.id === contest.id)
-        );
-        localStorage.setItem('poetryContests', JSON.stringify(contestsToSave));
-        localStorage.setItem('lastContestSearch', new Date().toISOString());
-    } catch (error) {
-        console.error('Error saving contests:', error);
-    }
+function importData() {
+    showNotification('Data import feature coming soon!', 'info');
 }
 
-function loadPoems() {
-    const saved = localStorage.getItem('poetryPoems');
-    if (saved) {
-        try {
-            poems = JSON.parse(saved);
-            filteredPoems = [...poems];
-            renderPoems();
-        } catch (error) {
-            console.error('Error loading poems:', error);
-        }
-    }
+function clearCache() {
+    showNotification('Cache clear feature coming soon!', 'info');
 }
 
-function savePoems() {
-    try {
-        localStorage.setItem('poetryPoems', JSON.stringify(poems));
-        updateAppStats();
-    } catch (error) {
-        console.error('Error saving poems:', error);
-    }
+function resetApp() {
+    showNotification('App reset feature coming soon!', 'info');
 }
 
-function loadUserProfile() {
-    const saved = localStorage.getItem('poetryProfile');
-    if (saved) {
-        try {
-            userProfile = JSON.parse(saved);
-            populateProfileForm();
-        } catch (error) {
-            console.error('Error loading profile:', error);
-        }
-    }
+function submitToContests(poemId) {
+    showNotification('Contest submission feature coming soon!', 'info');
 }
 
-function saveUserProfile() {
-    try {
-        localStorage.setItem('poetryProfile', JSON.stringify(userProfile));
-        showNotification('Profile saved successfully!', 'success');
-    } catch (error) {
-        console.error('Error saving profile:', error);
-        showNotification('Error saving profile', 'error');
-    }
-}
-
-function loadSubmissions() {
-    const saved = localStorage.getItem('poetrySubmissions');
-    if (saved) {
-        try {
-            submissions = JSON.parse(saved);
-        } catch (error) {
-            console.error('Error loading submissions:', error);
-        }
-    }
-}
-
-function saveSubmissions() {
-    try {
-        localStorage.setItem('poetrySubmissions', JSON.stringify(submissions));
-    } catch (error) {
-        console.error('Error saving submissions:', error);
-    }
-}
-
-// Event Listeners
-function initializeEventListeners() {
-    // Tab navigation
-    document.querySelectorAll('.nav-tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-            const tabName = this.dataset.tab;
-            switchTab(tabName);
-        });
+// PWA Service Worker Registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js')
+            .then(function(registration) {
+                console.log('ServiceWorker registration successful');
+            })
+            .catch(function(err) {
+                console.log('ServiceWorker registration failed: ', err);
+            });
     });
+}
 
-    // Calendar navigation
-    const prevMonth = document.getElementById('prevMonth');
-    const nextMonth = document.getElementById('nextMonth');
+// Handle install prompt
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
     
-    if (prevMonth) {
-        prevMonth.addEventListener('click', () => {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            generateCalendar();
+    // Show install button
+    const installBtn = document.createElement('button');
+    installBtn.className = 'btn';
+    installBtn.innerHTML = '📱 Install App';
+    installBtn.onclick = () => {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+            }
+            deferredPrompt = null;
+            installBtn.remove();
         });
-    }
+    };
     
-    if (nextMonth) {
-        nextMonth.addEventListener('click', () => {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            generateCalendar();
-        });
-    }
-
-    // Theme toggle
+    const headerActions = document.querySelector('.header-actions');
     const themeToggle = document.getElementById('themeToggle');
-    const themeSelect = document.getElementById('themeSelect');
-    
-    if (themeToggle) {
-        themeToggle.addEventListener('click', toggleTheme);
+    if (headerActions && themeToggle) {
+        headerActions.insertBefore(installBtn, themeToggle);
     }
-    
-    if (themeSelect) {
-        themeSelect.addEventListener('change', function() {
-            currentTheme = this.value;
-            localStorage.setItem('theme', currentTheme);
-            applyTheme(currentTheme);
-        });
-    }
-
-    // Contest management
-    const addContest = document.getElementById('addContest');
-    const searchContests = document.getElementById('searchContests');
-    
-    if (addContest) {
-        addContest.addEventListener('click', addCustomContest);
-    }
-    
-    if (searchContests) {
-        searchContests.addEventListener('click', searchContests);
-    }
-
-    // Poem management
-    const addNewPoem = document.getElementById('addNewPoem');
-    const importPoems = document.getElementById('importPoems');
-    const poemSearch = document.getElementById('poemSearch');
-    const tagFilter = document.getElementById('tagFilter');
-    const sortPoems = document.getElementById('sortPoems');
-    
-    if (addNewPoem) {
-        addNewPoem.addEventListener('click', addNewPoem);
-    }
-    
-    if (importPoems) {
-        importPoems.addEventListener('click', importPoems);
-    }
-    
-    if
+});

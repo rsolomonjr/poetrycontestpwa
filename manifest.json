@@ -12,22 +12,22 @@
   "categories": ["productivity", "education", "lifestyle"],
   "icons": [
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iOCIgZmlsbD0iIzYzNjZmMSIvPgo8cGF0aCBkPSJNMTIgMTZoMjR2MkgxMnYtMnptMCBoMjBIMzB2MkgxMnYtMnptMCBoMTZIMjh2MkgxMnYtMnptMCBoMTJIMjR2MkgxMnYtMnoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0zNiAxNnYxNmEyIDIgMCAwIDEtMiAySDEwYTIgMiAwIDAgMS0yLTJWMTZhMiAyIDAgMCAxIDItMmgyNGEyIDIgMCAwIDEgMiAyeiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+Cjwvc3ZnPgo=",
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iOCIgZmlsbD0iIzYzNjZmMSIvPgo8cGF0aCBkPSJNMTIgMTZoMjR2MkgxMnYtMnptMCA0aDIwdjJIMTJ2LTJ6bTAgNGgxNnYySDE2di0yem0wIDRoMTJ2MkgxMnYtMnoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0zNiAxNnYxNmEyIDIgMCAwIDEtMiAySDEwYTIgMiAwIDAgMS0yLTJWMTZhMiAyIDAgMCAxIDItMmgyNGEyIDIgMCAwIDEgMiAyeiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBmaWxsPSJub25lIi8+Cjwvc3ZnPgo=",
       "sizes": "48x48",
       "type": "image/svg+xml"
     },
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMTYiIGZpbGw9IiM2MzY2ZjEiLz4KPHA
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMTYiIGZpbGw9IiM2MzY2ZjEiLz4KPHBhdGggZD0iTTI0IDMySDcydjRIMjR2LTR6bTAgOGg0MHY0SDI0di00em0wIDhoMzJ2NEgyNHYtNHptMCA4aDI0djRIMjR2LTR6IiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNNzIgMzJ2MzJhNCA0IDAgMCAxLTQgNEgyMGE0IDQgMCAwIDEtNC00VjMyYTQgNCAwIDAgMSA0LTRoNDhhNCA0IDAgMCAxIDQgNHoiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNCIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4K",
       "sizes": "96x96",
       "type": "image/svg+xml"
     },
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMzIiIGZpbGw9IiM2MzY2ZjEiLz4KPHA",
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMzIiIGZpbGw9IiM2MzY2ZjEiLz4KPHBhdGggZD0iTTQ4IDY0SDE0NHY4SDQ4di04em0wIDE2aDgwdjhINDh2LTh6bTAgMTZoNjR2OEg0OHYtOHptMCAxNmg0OHY4SDQ4di04eiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTE0NCA2NHY2NGE4IDggMCAwIDEtOCA4SDQwYTggOCAwIDAgMS04LThWNjRhOCA4IDAgMCAxIDgtOGg5NmE4IDggMCAwIDEgOCA4eiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI4IiBmaWxsPSJub25lIi8+Cjwvc3ZnPgo=",
       "sizes": "192x192",
       "type": "image/svg+xml"
     },
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iODQiIGZpbGw9IiM2MzY2ZjEiLz4KPHA",
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iODQiIGZpbGw9IiM2MzY2ZjEiLz4KPHBhdGggZD0iTTEyOCAxNzBIMzg0djIwSDEyOHYtMjB6bTAgNDBoMjEzdjIwSDEyOHYtMjB6bTAgNDBoMTcwdjIwSDEyOHYtMjB6bTAgNDBoMTI4djIwSDEyOHYtMjB6IiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMzg0IDE3MHYxNzBhMjAgMjAgMCAwIDEtMjAgMjBIMTQ4YTIwIDIwIDAgMCAxLTIwLTIwVjE3MGEyMCAyMCAwIDAgMSAyMC0yMGgyMTZhMjAgMjAgMCAwIDEgMjAgMjB6IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIwIiBmaWxsPSJub25lIi8+Cjwvc3ZnPgo=",
       "sizes": "512x512",
       "type": "image/svg+xml",
       "purpose": "maskable"
@@ -35,14 +35,14 @@
   ],
   "screenshots": [
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjQ4MCIgdmlld0JveD0iMCAwIDY0MCA0ODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI2NDAiIGhlaWdodD0iNDgwIiBmaWxsPSIjZjlmYWZiIi8+CjxyZWN0IHg9IjIwIiB5PSIyMCIgd2lkdGg9IjYwMCIgaGVpZ2h0PSI2MCIgZmlsbD0iI2ZmZmZmZiIgcng9IjgiLz4KPHA",
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjQ4MCIgdmlld0JveD0iMCAwIDY0MCA0ODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI2NDAiIGhlaWdodD0iNDgwIiBmaWxsPSIjZjlmYWZiIi8+CjxyZWN0IHg9IjIwIiB5PSIyMCIgd2lkdGg9IjYwMCIgaGVpZ2h0PSI2MCIgZmlsbD0iI2ZmZmZmZiIgcng9IjgiLz4KPHRleHQgeD0iMzIwIiB5PSI1NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMTExODI3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5Qb2V0cnkgQ29udGVzdCBDYWxlbmRhcjwvdGV4dD4KPC9zdmc+",
       "sizes": "640x480",
       "type": "image/svg+xml",
       "form_factor": "wide",
       "label": "Poetry Contest Calendar - Desktop View"
     },
     {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjU2OCIgdmlld0JveD0iMCAwIDMyMCA1NjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMjAiIGhlaWdodD0iNTY4IiBmaWxsPSIjZjlmYWZiIi8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjMwMCIgaGVpZ2h0PSI2MCIgZmlsbD0iI2ZmZmZmZiIgcng9IjgiLz4KPHA",
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjU2OCIgdmlld0JveD0iMCAwIDMyMCA1NjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMjAiIGhlaWdodD0iNTY4IiBmaWxsPSIjZjlmYWZiIi8+CjxyZWN0IHg9IjEwIiB5PSIxMCIgd2lkdGg9IjMwMCIgaGVpZ2h0PSI2MCIgZmlsbD0iI2ZmZmZmZiIgcng9IjgiLz4KPHRleHQgeD0iMTYwIiB5PSI0NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMTExODI3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5Qb2V0cnkgQ2FsZW5kYXI8L3RleHQ+Cjwvc3ZnPg==",
       "sizes": "320x568",
       "type": "image/svg+xml",
       "form_factor": "narrow",
@@ -57,7 +57,7 @@
       "url": "/?action=new-poem",
       "icons": [
         {
-          "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDVWMTkiIHN0cm9rZT0iIzYzNjZmMSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHA",
+          "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDVWMTkiIHN0cm9rZT0iIzYzNjZmMSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTUgMTJIMTkiIHN0cm9rZT0iIzYzNjZmMSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+",
           "sizes": "24x24"
         }
       ]
@@ -69,7 +69,7 @@
       "url": "/?action=search-contests",
       "icons": [
         {
-          "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTEiIGN5PSIxMSIgcj0iOCIgc3Ryb2tlPSIjNjM2NmYxIiBzdHJva2Utd2lkdGg9IjIiLz4KPHA",
+          "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTEiIGN5PSIxMSIgcj0iOCIgc3Ryb2tlPSIjNjM2NmYxIiBzdHJva2Utd2lkdGg9IjIiLz4KPHBhdGggZD0iTTIxIDIxTDE2LjUgMTYuNSIgc3Ryb2tlPSIjNjM2NmYxIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4K",
           "sizes": "24x24"
         }
       ]
