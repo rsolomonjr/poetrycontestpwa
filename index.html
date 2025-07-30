@@ -32,6 +32,7 @@
                 <div class="nav-tabs">
                     <button class="nav-tab active" data-tab="calendar">Calendar</button>
                     <button class="nav-tab" data-tab="poems">My Poems</button>
+                    <button class="nav-tab" data-tab="resources">Resources</button>
                     <button class="nav-tab" data-tab="profile">Profile</button>
                     <button class="nav-tab" data-tab="settings">Settings</button>
                 </div>
@@ -139,6 +140,168 @@
                         <h3>No poems yet</h3>
                         <p>Start building your poetry collection by adding your first poem!</p>
                         <button class="btn btn-primary" onclick="document.getElementById('addNewPoem').click()">Add First Poem</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resources Tab -->
+            <div class="tab-content" id="resources">
+                <div style="padding: 2rem; max-width: 1000px; margin: 0 auto;">
+                    <div style="text-align: center; margin-bottom: 3rem;">
+                        <h2 style="margin-bottom: 1rem; color: var(--text-primary);">Poetry Contest Resources</h2>
+                        <p style="color: var(--text-secondary); font-size: 1.125rem; max-width: 600px; margin: 0 auto;">
+                            Discover new poetry contests, submission opportunities, and literary markets from these trusted databases and resources.
+                        </p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                        <!-- Poets & Writers -->
+                        <div class="resource-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; transition: all 0.3s ease; cursor: pointer;" onclick="openResource('https://www.pw.org/grants')">
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.25rem;">P&W</div>
+                                <div>
+                                    <h3 style="margin: 0; font-size: 1.125rem; font-weight: 600;">Poets & Writers</h3>
+                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Literary Grants & Awards Database</div>
+                                </div>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary); margin-left: auto;">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15,3 21,3 21,9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5; margin: 0;">
+                                Comprehensive database of grants, awards, and contests for poets and writers. Features detailed submission guidelines and deadlines.
+                            </p>
+                        </div>
+
+                        <!-- Winning Writers -->
+                        <div class="resource-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; transition: all 0.3s ease; cursor: pointer;" onclick="openResource('https://winningwriters.com/resources/literary-magazine-database-at-poets-writers')">
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #059669, #10b981); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.25rem;">WW</div>
+                                <div>
+                                    <h3 style="margin: 0; font-size: 1.125rem; font-weight: 600;">Winning Writers</h3>
+                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Contest Reviews & Recommendations</div>
+                                </div>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary); margin-left: auto;">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15,3 21,3 21,9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5; margin: 0;">
+                                Trusted resource for legitimate contests with detailed reviews, scam warnings, and expert recommendations for poets.
+                            </p>
+                        </div>
+
+                        <!-- NewPages.com -->
+                        <div class="resource-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; transition: all 0.3s ease; cursor: pointer;" onclick="openResource('https://www.newpages.com/guide-submission-opportunities/big-list-of-writing-contests/')">
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #f59e0b, #f97316); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.25rem;">NP</div>
+                                <div>
+                                    <h3 style="margin: 0; font-size: 1.125rem; font-weight: 600;">NewPages.com</h3>
+                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Big List of Writing Contests</div>
+                                </div>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary); margin-left: auto;">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15,3 21,3 21,9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5; margin: 0;">
+                                Extensive directory of writing contests, literary magazines, and submission opportunities organized by genre and deadline.
+                            </p>
+                        </div>
+
+                        <!-- The Submission Grinder -->
+                        <div class="resource-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; transition: all 0.3s ease; cursor: pointer;" onclick="openResource('https://thegrinder.diabolicalplots.com/')">
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #7c3aed, #a855f7); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.25rem;">SG</div>
+                                <div>
+                                    <h3 style="margin: 0; font-size: 1.125rem; font-weight: 600;">The Submission Grinder</h3>
+                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Market Database & Tracker</div>
+                                </div>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary); margin-left: auto;">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15,3 21,3 21,9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5; margin: 0;">
+                                Free database of short fiction and poetry markets with submission tracking, response time statistics, and market analysis.
+                            </p>
+                        </div>
+
+                        <!-- Submittable -->
+                        <div class="resource-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; transition: all 0.3s ease; cursor: pointer;" onclick="openResource('https://manager.submittable.com/opportunities/discover?tags=poetry')">
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #2563eb, #3b82f6); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.25rem;">S</div>
+                                <div>
+                                    <h3 style="margin: 0; font-size: 1.125rem; font-weight: 600;">Submittable</h3>
+                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Discover Opportunities</div>
+                                </div>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary); margin-left: auto;">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15,3 21,3 21,9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5; margin: 0;">
+                                Platform used by many literary magazines and contests. Browse poetry opportunities with integrated submission system.
+                            </p>
+                        </div>
+
+                        <!-- Chill Subs -->
+                        <div class="resource-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.5rem; transition: all 0.3s ease; cursor: pointer;" onclick="openResource('https://www.chillsubs.com/')">
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #06b6d4, #0891b2); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.25rem;">CS</div>
+                                <div>
+                                    <h3 style="margin: 0; font-size: 1.125rem; font-weight: 600;">Chill Subs</h3>
+                                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Curated Submission Calls</div>
+                                </div>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-secondary); margin-left: auto;">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15,3 21,3 21,9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                            </div>
+                            <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5; margin: 0;">
+                                Curated weekly newsletter featuring quality submission opportunities for poetry, fiction, and creative writing.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Additional Tips Section -->
+                    <div style="margin-top: 3rem; padding: 2rem; background: var(--background); border-radius: 0.75rem; border: 1px solid var(--border);">
+                        <h3 style="margin-bottom: 1.5rem; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1.5rem;">💡</span>
+                            Tips for Finding Contest Opportunities
+                        </h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                            <div>
+                                <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Research Thoroughly</h4>
+                                <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0;">
+                                    Check contest history, past winners, and judge credentials before submitting.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Watch for Red Flags</h4>
+                                <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0;">
+                                    Avoid contests with excessive fees, vague guidelines, or no publishing history.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Track Submissions</h4>
+                                <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0;">
+                                    Use this app's submission tracker to monitor your entries and responses.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Set a Budget</h4>
+                                <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0;">
+                                    Entry fees add up quickly. Set monthly limits and prioritize quality contests.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

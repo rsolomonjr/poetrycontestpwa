@@ -598,7 +598,7 @@ function viewPoem(poemId) {
             
             <div style="margin: 1.5rem 0;">
                 <div style="background: var(--background); padding: 1.5rem; border-radius: 0.5rem; font-family: 'Georgia', serif; line-height: 1.8; white-space: pre-wrap; font-size: 1rem; word-wrap: break-word; overflow-wrap: break-word;">
-                    ${poem.text}
+                    ${poem.htmlContent ? poem.htmlContent : poem.text.replace(/\n/g, '<br>')}
                 </div>
             </div>
             
@@ -1412,7 +1412,7 @@ function addNewPoem() {
     const modal = document.createElement('div');
     modal.className = 'modal show';
     modal.innerHTML = `
-        <div class="modal-content" style="max-width: 700px; max-height: 90vh; overflow-y: auto;">
+        <div class="modal-content" style="max-width: 800px; max-height: 95vh; overflow-y: auto;">
             <div class="modal-header">
                 <div class="modal-favicon">📝</div>
                 <div>
@@ -1429,7 +1429,64 @@ function addNewPoem() {
                 
                 <div>
                     <label style="display: block; margin-bottom: 0.25rem; font-weight: 500;">Poem Text *</label>
-                    <textarea id="poemText" required rows="12" placeholder="Enter your poem here..." style="width: 100%; padding: 0.5rem; border: 1px solid var(--border); border-radius: 0.375rem; background: var(--surface); color: var(--text-primary); resize: vertical; font-family: 'Georgia', serif; line-height: 1.6; word-wrap: break-word; overflow-wrap: break-word; white-space: pre-wrap;"></textarea>
+                    
+                    <!-- Formatting Toolbar -->
+                    <div id="formatToolbar" style="display: flex; flex-wrap: wrap; gap: 0.25rem; padding: 0.5rem; background: var(--background); border: 1px solid var(--border); border-bottom: none; border-radius: 0.375rem 0.375rem 0 0;">
+                        <!-- Text Formatting -->
+                        <button type="button" class="format-btn" data-command="bold" title="Bold (Ctrl+B)" style="padding: 0.25rem 0.5rem; border: 1px solid var(--border); background: var(--surface); border-radius: 0.25rem; cursor: pointer; font-weight: bold;">B</button>
+                        <button type="button" class="format-btn" data-command="italic" title="Italic (Ctrl+I)" style="padding: 0.25rem 0.5rem; border: 1px solid var(--border); background: var(--surface); border-radius: 0.25rem; cursor: pointer; font-style: italic;">I</button>
+                        <button type="button" class="format-btn" data-command="underline" title="Underline (Ctrl+U)" style="padding: 0.25rem 0.5rem; border: 1px solid var(--border); background: var(--surface); border-radius: 0.25rem; cursor: pointer; text-decoration: underline;">U</button>
+                        
+                        <div style="width: 1px; height: 24px; background: var(--border); margin: 0 0.25rem;"></div>
+                        
+                        <!-- Font Family -->
+                        <select id="fontFamily" title="Font Family" style="padding: 0.25rem; border: 1px solid var(--border); background: var(--surface); border-radius: 0.25rem; font-size: 0.875rem;">
+                            <option value="'Georgia', serif">Georgia (Serif)</option>
+                            <option value="'Times New Roman', serif">Times New Roman</option>
+                            <option value="Arial, sans-serif">Arial (Sans-serif)</option>
+                            <option value="'Helvetica Neue', sans-serif">Helvetica</option>
+                            <option value="'Courier New', monospace">Courier (Monospace)</option>
+                            <option value="'Monaco', monospace">Monaco</option>
+                            <option value="'Roboto', sans-serif">Roboto</option>
+                        </select>
+                        
+                        <!-- Font Size -->
+                        <select id="fontSize" title="Font Size" style="padding: 0.25rem; border: 1px solid var(--border); background: var(--surface); border-radius: 0.25rem; font-size: 0.875rem;">
+                            <option value="12px">12px</option>
+                            <option value="14px">14px</option>
+                            <option value="16px" selected>16px</option>
+                            <option value="18px">18px</option>
+                            <option value="20px">20px</option>
+                            <option value="24px">24px</option>
+                            <option value="28px">28px</option>
+                            <option value="32px">32px</option>
+                        </select>
+                        
+                        <div style="width: 1px; height: 24px; background: var(--border); margin: 0 0.25rem;"></div>
+                        
+                        <!-- Alignment -->
+                        <button type="button" class="format-btn" data-command="justifyLeft" title="Align Left" style="padding: 0.25rem 0.5rem; border: 1px solid var(--border); background: var(--surface); border-radius: 0.25rem; cursor: pointer;">⬅</button>
+                        <button type="button" class="format-btn" data-command="justifyCenter" title="Center" style="padding: 0.25rem 0.5rem; border: 1px solid var(--border); background: var(--surface); border-radius: 0.25rem; cursor: pointer;">⬄</button>
+                        <button type="button" class="format-btn" data-command="justifyRight" title="Align Right" style="padding: 0.25rem 0.5rem; border: 1px solid var(--border); background: var(--surface); border-radius: 0.25rem; cursor: pointer;">➡</button>
+                        
+                        <div style="width: 1px; height: 24px; background: var(--border); margin: 0 0.25rem;"></div>
+                        
+                        <!-- Special formatting -->
+                        <button type="button" class="format-btn" id="insertTab" title="Insert Tab" style="padding: 0.25rem 0.5rem; border: 1px solid var(--border); background: var(--surface); border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem;">TAB</button>
+                        <button type="button" class="format-btn" data-command="removeFormat" title="Clear Formatting" style="padding: 0.25rem 0.5rem; border: 1px solid var(--border); background: var(--surface); border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem;">✕</button>
+                        
+                        <div style="width: 1px; height: 24px; background: var(--border); margin: 0 0.25rem;"></div>
+                        
+                        <!-- View Toggle -->
+                        <button type="button" id="toggleView" title="Toggle HTML/Visual View" style="padding: 0.25rem 0.5rem; border: 1px solid var(--border); background: var(--surface); border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem;">&lt;/&gt;</button>
+                    </div>
+                    
+                    <!-- Rich Text Editor -->
+                    <div id="poemTextEditor" contenteditable="true" style="min-height: 300px; max-height: 400px; overflow-y: auto; padding: 1rem; border: 1px solid var(--border); border-top: none; border-radius: 0 0 0.375rem 0.375rem; background: var(--surface); color: var(--text-primary); font-family: 'Georgia', serif; font-size: 16px; line-height: 1.8; white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word; outline: none;" placeholder="Enter your poem here..."></div>
+                    
+                    <!-- HTML Source View (hidden by default) -->
+                    <textarea id="poemTextHTML" style="display: none; min-height: 300px; max-height: 400px; padding: 1rem; border: 1px solid var(--border); border-top: none; border-radius: 0 0 0.375rem 0.375rem; background: var(--surface); color: var(--text-primary); font-family: 'Courier New', monospace; font-size: 14px; resize: vertical; white-space: pre-wrap; word-wrap: break-word; outline: none;" placeholder="HTML source code..."></textarea>
+                    
                     <div style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.25rem; display: flex; justify-content: space-between;">
                         <span><span id="poemWordCount">0</span> words</span>
                         <span><span id="poemLineCount">0</span> lines</span>
@@ -1482,20 +1539,8 @@ function addNewPoem() {
 
     document.body.appendChild(modal);
     
-    // Add event listeners for word count
-    const textArea = modal.querySelector('#poemText');
-    const wordCountSpan = modal.querySelector('#poemWordCount');
-    const lineCountSpan = modal.querySelector('#poemLineCount');
-    
-    if (textArea && wordCountSpan && lineCountSpan) {
-        textArea.addEventListener('input', function() {
-            const text = this.value;
-            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-            const lines = text.split('\n').length;
-            wordCountSpan.textContent = words;
-            lineCountSpan.textContent = lines;
-        });
-    }
+    // Initialize rich text editor
+    initializeRichTextEditor(modal);
     
     // Save as draft handler
     const saveDraftBtn = modal.querySelector('#saveDraft');
@@ -1516,6 +1561,136 @@ function addNewPoem() {
             savePoem();
         });
     }
+}
+
+function initializeRichTextEditor(modal) {
+    const editor = modal.querySelector('#poemTextEditor');
+    const htmlSource = modal.querySelector('#poemTextHTML');
+    const wordCountSpan = modal.querySelector('#poemWordCount');
+    const lineCountSpan = modal.querySelector('#poemLineCount');
+    const toggleViewBtn = modal.querySelector('#toggleView');
+    const fontFamilySelect = modal.querySelector('#fontFamily');
+    const fontSizeSelect = modal.querySelector('#fontSize');
+    const insertTabBtn = modal.querySelector('#insertTab');
+    
+    let isHTMLView = false;
+    
+    // Formatting button handlers
+    modal.querySelectorAll('.format-btn[data-command]').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const command = this.dataset.command;
+            document.execCommand(command, false, null);
+            editor.focus();
+            updateWordCount();
+        });
+    });
+    
+    // Font family handler
+    fontFamilySelect.addEventListener('change', function() {
+        document.execCommand('fontName', false, this.value);
+        editor.focus();
+    });
+    
+    // Font size handler
+    fontSizeSelect.addEventListener('change', function() {
+        const selection = window.getSelection();
+        if (selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            if (!range.collapsed) {
+                const span = document.createElement('span');
+                span.style.fontSize = this.value;
+                range.surroundContents(span);
+            }
+        }
+        editor.focus();
+    });
+    
+    // Insert tab handler
+    insertTabBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.execCommand('insertHTML', false, '&nbsp;&nbsp;&nbsp;&nbsp;');
+        editor.focus();
+        updateWordCount();
+    });
+    
+    // Toggle view handler
+    toggleViewBtn.addEventListener('click', function() {
+        if (isHTMLView) {
+            // Switch back to visual editor
+            editor.innerHTML = htmlSource.value;
+            editor.style.display = 'block';
+            htmlSource.style.display = 'none';
+            this.textContent = '</>';
+            isHTMLView = false;
+        } else {
+            // Switch to HTML source
+            htmlSource.value = editor.innerHTML;
+            editor.style.display = 'none';
+            htmlSource.style.display = 'block';
+            this.textContent = '👁';
+            isHTMLView = true;
+        }
+    });
+    
+    // Sync HTML source changes back to editor
+    htmlSource.addEventListener('input', function() {
+        if (isHTMLView) {
+            editor.innerHTML = this.value;
+            updateWordCount();
+        }
+    });
+    
+    // Word count update function
+    function updateWordCount() {
+        const text = editor.innerText || editor.textContent || '';
+        const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+        const lines = text.split('\n').length;
+        if (wordCountSpan) wordCountSpan.textContent = words;
+        if (lineCountSpan) lineCountSpan.textContent = lines;
+    }
+    
+    // Update word count on input
+    editor.addEventListener('input', updateWordCount);
+    
+    // Keyboard shortcuts
+    editor.addEventListener('keydown', function(e) {
+        if (e.ctrlKey || e.metaKey) {
+            switch (e.key.toLowerCase()) {
+                case 'b':
+                    e.preventDefault();
+                    document.execCommand('bold');
+                    break;
+                case 'i':
+                    e.preventDefault();
+                    document.execCommand('italic');
+                    break;
+                case 'u':
+                    e.preventDefault();
+                    document.execCommand('underline');
+                    break;
+            }
+        }
+        
+        // Tab key handler
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            document.execCommand('insertHTML', false, '&nbsp;&nbsp;&nbsp;&nbsp;');
+        }
+        
+        setTimeout(updateWordCount, 10);
+    });
+    
+    // Paste handler to clean up pasted content
+    editor.addEventListener('paste', function(e) {
+        e.preventDefault();
+        const text = e.clipboardData.getData('text/plain');
+        document.execCommand('insertText', false, text);
+        setTimeout(updateWordCount, 10);
+    });
+    
+    // Focus the editor
+    editor.focus();
 }
 
 // Placeholder functions for features to be implemented
@@ -1648,6 +1823,59 @@ function importPoems() {
 }
 
 function exportData() {
+    // Create export modal with format options
+    const exportModal = document.createElement('div');
+    exportModal.className = 'modal show';
+    exportModal.innerHTML = `
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <div class="modal-favicon">📤</div>
+                <div>
+                    <div class="modal-title">Export Data</div>
+                    <div class="modal-organization">Choose export format and content</div>
+                </div>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 1.5rem; margin: 1.5rem 0;">
+                <div>
+                    <h4 style="margin-bottom: 1rem;">Export All Data</h4>
+                    <button class="btn btn-primary" onclick="exportAllAsJSON()" style="width: 100%; margin-bottom: 0.5rem;">
+                        📄 Export Everything as JSON
+                    </button>
+                    <div style="font-size: 0.875rem; color: var(--text-secondary);">
+                        Includes poems, profile, contests, and submissions
+                    </div>
+                </div>
+                
+                <div style="border-top: 1px solid var(--border); padding-top: 1.5rem;">
+                    <h4 style="margin-bottom: 1rem;">Export Individual Poems</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.5rem; margin-bottom: 1rem;">
+                        <button class="btn" onclick="showPoemExportOptions('word')">
+                            📝 Word Doc
+                        </button>
+                        <button class="btn" onclick="showPoemExportOptions('pdf')">
+                            📄 PDF
+                        </button>
+                        <button class="btn" onclick="showPoemExportOptions('markdown')">
+                            📋 Markdown
+                        </button>
+                    </div>
+                    <div style="font-size: 0.875rem; color: var(--text-secondary);">
+                        Select individual poems to export in various formats
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn" onclick="this.closest('.modal').remove()">Close</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(exportModal);
+}
+
+function exportAllAsJSON() {
     const exportData = {
         poems: poems,
         profile: userProfile,
@@ -1671,7 +1899,319 @@ function exportData() {
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
     
-    showNotification('Data exported successfully!', 'success');
+    document.querySelector('.modal').remove();
+    showNotification('All data exported as JSON successfully!', 'success');
+}
+
+function showPoemExportOptions(format) {
+    // Close current modal
+    document.querySelector('.modal').remove();
+    
+    // Create poem selection modal
+    const poemModal = document.createElement('div');
+    poemModal.className = 'modal show';
+    poemModal.innerHTML = `
+        <div class="modal-content" style="max-width: 600px; max-height: 80vh; overflow-y: auto;">
+            <div class="modal-header">
+                <div class="modal-favicon">📝</div>
+                <div>
+                    <div class="modal-title">Export Poems as ${format.toUpperCase()}</div>
+                    <div class="modal-organization">Select poems to export</div>
+                </div>
+            </div>
+            
+            <div style="margin: 1.5rem 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 500;">
+                        <input type="checkbox" id="selectAll" onchange="toggleAllPoems(this)">
+                        Select All Poems
+                    </label>
+                    <button class="btn btn-primary" onclick="exportSelectedPoems('${format}')" id="exportBtn" disabled>
+                        Export Selected
+                    </button>
+                </div>
+                
+                <div id="poemsList" style="max-height: 400px; overflow-y: auto; border: 1px solid var(--border); border-radius: 0.5rem; padding: 1rem;">
+                    ${poems.map(poem => `
+                        <label style="display: flex; align-items: start; gap: 0.75rem; padding: 0.75rem; border-radius: 0.375rem; cursor: pointer; transition: background 0.2s;" 
+                               onmouseover="this.style.background='var(--background)'" 
+                               onmouseout="this.style.background='transparent'">
+                            <input type="checkbox" class="poem-checkbox" value="${poem.id}" onchange="updateExportButton()">
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600; margin-bottom: 0.25rem;">${poem.title}</div>
+                                <div style="font-size: 0.875rem; color: var(--text-secondary);">
+                                    ${poem.category} • ${poem.wordCount} words • ${poem.status}
+                                </div>
+                                <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem; max-height: 40px; overflow: hidden;">
+                                    ${poem.text.substring(0, 100)}${poem.text.length > 100 ? '...' : ''}
+                                </div>
+                            </div>
+                        </label>
+                    `).join('')}
+                </div>
+                
+                ${poems.length === 0 ? `
+                    <div style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📝</div>
+                        <div>No poems to export</div>
+                        <div style="font-size: 0.875rem;">Create some poems first!</div>
+                    </div>
+                ` : ''}
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn" onclick="this.closest('.modal').remove()">Cancel</button>
+                <button class="btn" onclick="exportData()">← Back to Export Options</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(poemModal);
+}
+
+function toggleAllPoems(checkbox) {
+    const poemCheckboxes = document.querySelectorAll('.poem-checkbox');
+    poemCheckboxes.forEach(cb => {
+        cb.checked = checkbox.checked;
+    });
+    updateExportButton();
+}
+
+function updateExportButton() {
+    const selectedPoems = document.querySelectorAll('.poem-checkbox:checked');
+    const exportBtn = document.getElementById('exportBtn');
+    const selectAllCheckbox = document.getElementById('selectAll');
+    
+    if (exportBtn) {
+        exportBtn.disabled = selectedPoems.length === 0;
+        exportBtn.textContent = selectedPoems.length > 0 ? 
+            `Export ${selectedPoems.length} Poem${selectedPoems.length !== 1 ? 's' : ''}` : 
+            'Export Selected';
+    }
+    
+    // Update select all checkbox state
+    const allCheckboxes = document.querySelectorAll('.poem-checkbox');
+    if (selectAllCheckbox && allCheckboxes.length > 0) {
+        selectAllCheckbox.checked = selectedPoems.length === allCheckboxes.length;
+        selectAllCheckbox.indeterminate = selectedPoems.length > 0 && selectedPoems.length < allCheckboxes.length;
+    }
+}
+
+function exportSelectedPoems(format) {
+    const selectedPoemIds = Array.from(document.querySelectorAll('.poem-checkbox:checked')).map(cb => cb.value);
+    const selectedPoems = poems.filter(poem => selectedPoemIds.includes(poem.id));
+    
+    if (selectedPoems.length === 0) {
+        alert('Please select at least one poem to export');
+        return;
+    }
+    
+    switch (format) {
+        case 'word':
+            exportAsWord(selectedPoems);
+            break;
+        case 'pdf':
+            exportAsPDF(selectedPoems);
+            break;
+        case 'markdown':
+            exportAsMarkdown(selectedPoems);
+            break;
+    }
+    
+    document.querySelector('.modal').remove();
+}
+
+function exportAsWord(selectedPoems) {
+    // Create Word document content using HTML
+    const wordContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <title>Poetry Collection</title>
+            <style>
+                body { font-family: 'Times New Roman', serif; line-height: 1.6; margin: 1in; }
+                .poem { page-break-after: always; margin-bottom: 2in; }
+                .poem:last-child { page-break-after: avoid; }
+                .title { font-size: 18pt; font-weight: bold; text-align: center; margin-bottom: 1in; }
+                .poem-content { font-size: 12pt; white-space: pre-wrap; }
+                .metadata { font-size: 10pt; color: #666; margin-top: 1in; border-top: 1px solid #ccc; padding-top: 0.5in; }
+                @page { margin: 1in; }
+            </style>
+        </head>
+        <body>
+            ${selectedPoems.map(poem => `
+                <div class="poem">
+                    <h1 class="title">${poem.title}</h1>
+                    <div class="poem-content">${poem.htmlContent || poem.text.replace(/\n/g, '<br>')}</div>
+                    <div class="metadata">
+                        <p><strong>Category:</strong> ${poem.category}</p>
+                        <p><strong>Word Count:</strong> ${poem.wordCount}</p>
+                        <p><strong>Created:</strong> ${new Date(poem.created).toLocaleDateString()}</p>
+                        ${poem.notes ? `<p><strong>Notes:</strong> ${poem.notes}</p>` : ''}
+                    </div>
+                </div>
+            `).join('')}
+        </body>
+        </html>
+    `;
+    
+    const blob = new Blob([wordContent], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `poems-${new Date().toISOString().split('T')[0]}.doc`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    showNotification(`${selectedPoems.length} poem(s) exported as Word document!`, 'success');
+}
+
+function exportAsPDF(selectedPoems) {
+    // Create a printable HTML page that can be saved as PDF
+    const pdfWindow = window.open('', '_blank');
+    const pdfContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <title>Poetry Collection</title>
+            <style>
+                body { 
+                    font-family: 'Times New Roman', serif; 
+                    line-height: 1.6; 
+                    margin: 0;
+                    padding: 20px;
+                    background: white;
+                    color: black;
+                }
+                .poem { 
+                    page-break-after: always; 
+                    margin-bottom: 40px; 
+                    padding: 20px;
+                    border-bottom: 2px solid #eee;
+                }
+                .poem:last-child { 
+                    page-break-after: avoid; 
+                    border-bottom: none;
+                }
+                .title { 
+                    font-size: 24px; 
+                    font-weight: bold; 
+                    text-align: center; 
+                    margin-bottom: 30px; 
+                    color: #333;
+                }
+                .poem-content { 
+                    font-size: 14px; 
+                    white-space: pre-wrap; 
+                    margin-bottom: 30px;
+                    text-align: left;
+                }
+                .metadata { 
+                    font-size: 12px; 
+                    color: #666; 
+                    border-top: 1px solid #ccc; 
+                    padding-top: 15px; 
+                }
+                .metadata p { margin: 5px 0; }
+                @media print {
+                    body { margin: 0; }
+                    .poem { page-break-after: always; }
+                    .no-print { display: none; }
+                }
+                .print-instructions {
+                    position: fixed;
+                    top: 10px;
+                    right: 10px;
+                    background: #4CAF50;
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    font-size: 14px;
+                    z-index: 1000;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="print-instructions no-print">
+                Press Ctrl+P (Cmd+P on Mac) to save as PDF
+            </div>
+            ${selectedPoems.map(poem => `
+                <div class="poem">
+                    <h1 class="title">${poem.title}</h1>
+                    <div class="poem-content">${poem.htmlContent || poem.text.replace(/\n/g, '<br>')}</div>
+                    <div class="metadata">
+                        <p><strong>Category:</strong> ${poem.category}</p>
+                        <p><strong>Word Count:</strong> ${poem.wordCount}</p>
+                        <p><strong>Created:</strong> ${new Date(poem.created).toLocaleDateString()}</p>
+                        ${poem.notes ? `<p><strong>Notes:</strong> ${poem.notes}</p>` : ''}
+                    </div>
+                </div>
+            `).join('')}
+        </body>
+        </html>
+    `;
+    
+    pdfWindow.document.write(pdfContent);
+    pdfWindow.document.close();
+    
+    // Auto-trigger print dialog after a short delay
+    setTimeout(() => {
+        pdfWindow.print();
+    }, 500);
+    
+    showNotification(`${selectedPoems.length} poem(s) opened for PDF export! Use Ctrl+P to save as PDF.`, 'success');
+}
+
+function exportAsMarkdown(selectedPoems) {
+    const markdownContent = selectedPoems.map(poem => {
+        // Convert HTML content to markdown-friendly format
+        let content = poem.htmlContent || poem.text;
+        
+        // Simple HTML to markdown conversion
+        content = content
+            .replace(/<br\s*\/?>/gi, '\n')
+            .replace(/<strong>(.*?)<\/strong>/gi, '**$1**')
+            .replace(/<b>(.*?)<\/b>/gi, '**$1**')
+            .replace(/<em>(.*?)<\/em>/gi, '*$1*')
+            .replace(/<i>(.*?)<\/i>/gi, '*$1*')
+            .replace(/<u>(.*?)<\/u>/gi, '_$1_')
+            .replace(/&nbsp;/gi, ' ')
+            .replace(/<[^>]*>/g, ''); // Remove any remaining HTML tags
+        
+        return `# ${poem.title}
+
+${content}
+
+---
+
+**Metadata:**
+- **Category:** ${poem.category}
+- **Status:** ${poem.status}
+- **Word Count:** ${poem.wordCount}
+- **Line Count:** ${poem.lineCount}
+- **Created:** ${new Date(poem.created).toLocaleDateString()}
+- **Modified:** ${new Date(poem.modified).toLocaleDateString()}
+${poem.tags.length > 0 ? `- **Tags:** ${poem.tags.map(tag => `#${tag}`).join(', ')}` : ''}
+${poem.notes ? `- **Notes:** ${poem.notes}` : ''}
+
+`;
+    }).join('\n\n');
+    
+    const blob = new Blob([markdownContent], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `poems-${new Date().toISOString().split('T')[0]}.md`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    showNotification(`${selectedPoems.length} poem(s) exported as Markdown!`, 'success');
 }
 
 function importData() {
@@ -1749,7 +2289,32 @@ function submitToContests(poemId) {
     showNotification('Contest submission feature coming soon!', 'info');
 }
 
-// PWA Service Worker Registration
+function openResource(url) {
+    window.open(url, '_blank', 'noopener,noreferrer');
+}
+
+// Add hover effects for resource cards when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    // ... existing initialization code ...
+    
+    // Add resource card hover effects after a delay to ensure they exist
+    setTimeout(() => {
+        const resourceCards = document.querySelectorAll('.resource-card');
+        resourceCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px)';
+                this.style.boxShadow = 'var(--shadow-lg)';
+                this.style.borderColor = 'var(--primary)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = 'none';
+                this.style.borderColor = 'var(--border)';
+            });
+        });
+    }, 500);
+});
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js')
