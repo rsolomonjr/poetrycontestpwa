@@ -988,6 +988,47 @@ function submitToContests(poemId) {
     showNotification('Contest submission feature coming soon!', 'info');
 }
 
+// PWA Service Worker Registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js')
+            .then(function(registration) {
+                console.log('ServiceWorker registration successful');
+            })
+            .catch(function(err) {
+                console.log('ServiceWorker registration failed: ', err);
+            });
+    });
+}
+
+// Handle install prompt
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    
+    // Show install button
+    const installBtn = document.createElement('button');
+    installBtn.className = 'btn';
+    installBtn.innerHTML = '📱 Install App';
+    installBtn.onclick = () => {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+            }
+            deferredPrompt = null;
+            installBtn.remove();
+        });
+    };
+    
+    const headerActions = document.querySelector('.header-actions');
+    const themeToggle = document.getElementById('themeToggle');
+    if (headerActions && themeToggle) {
+        headerActions.insertBefore(installBtn, themeToggle);
+    }
+});
+
 // Tab Management
 function switchTab(tabName) {
     // Update tab buttons
