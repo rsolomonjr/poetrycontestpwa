@@ -1654,10 +1654,6 @@ input:checked + .toggle-slider:before {
         height: 18px;
         font-size: 0.6875rem;
     }
-
-    .contest-prize {
-        display: block;
-    }
     
     .form-row {
         grid-template-columns: 1fr 1fr;
@@ -1869,6 +1865,10 @@ input:checked + .toggle-slider:before {
         grid-template-columns: repeat(4, 1fr);
     }
     
+    .contest-prize {
+        display: block;
+    }
+
     .tab-content {
         padding: 2.5rem;
     }
