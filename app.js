@@ -1,5 +1,30 @@
-// Enhanced contest data with NewPages contests
-// Add this to your app.js file to integrate NewPages contest data
+// Global variables for contest data
+// These need to be declared at a scope accessible by all functions that use them.
+let contests = [];
+let filteredContests = [];
+// Assuming sampleContests is defined elsewhere or is an empty array initially.
+// If it's meant to be a baseline, it should be populated with initial data.
+const sampleContests = []; // Initialize as empty, or with your default contests if any.
+
+// Placeholder functions for external dependencies (if not defined elsewhere in your app.js)
+// In a real application, ensure these are properly defined.
+function saveContests() {
+    console.log('Contests saved (placeholder function).');
+}
+
+function generateCalendar() {
+    console.log('Calendar regenerated (placeholder function).');
+    // This is where you would update your UI to display the contests.
+    // For this example, we'll log the current state of filteredContests.
+    console.log('Current filtered contests:', filteredContests);
+    // You might also want to trigger a UI update for the list of contests here.
+    updateContestsDisplay(); // Call a new function to update the display
+}
+
+function showNotification(message, type) {
+    console.log(`Notification (${type}): ${message}`);
+    // Implement your actual notification display logic here (e.g., a toast message)
+}
 
 // Function to parse contest data from NewPages and add to your existing contests
 function addNewPagesContests() {
@@ -329,6 +354,7 @@ function integrateNewPagesContests() {
     
     // Filter out any duplicates based on name and organization
     const uniqueNewContests = newPagesContests.filter(newContest => {
+        // Access the global 'contests' variable here
         return !contests.some(existingContest => 
             existingContest.name === newContest.name && 
             existingContest.organization === newContest.organization
@@ -336,7 +362,9 @@ function integrateNewPagesContests() {
     });
     
     // Add unique contests to the main contests array
+    // Reassign the global 'contests' variable
     contests = [...contests, ...uniqueNewContests];
+    // Reassign the global 'filteredContests' variable
     filteredContests = [...contests];
     
     // Save the updated contests
@@ -350,6 +378,7 @@ function integrateNewPagesContests() {
 
 // Enhanced search functionality to find contests from NewPages
 function searchNewPagesContests(searchTerm = '') {
+    // Access the global 'contests' variable here
     const allContests = [...contests, ...addNewPagesContests()];
     
     if (!searchTerm) return allContests;
@@ -385,10 +414,17 @@ function addNewPagesSyncButton() {
 
 // Enhanced contest modal to show NewPages source
 function showNewPagesContestDetails(contest) {
-    const modal = showContestDetails(contest); // Call existing function
+    // Assuming showContestDetails is defined elsewhere
+    // For now, let's just log the contest details.
+    console.log('Showing contest details:', contest);
+    // const modal = showContestDetails(contest); // Call existing function
     
     // Add NewPages attribution if it's from NewPages
     if (contest.isFromNewPages) {
+        // This part needs the actual modal structure to append to.
+        // For demonstration, we'll just log.
+        console.log('This contest is from NewPages.com Contest Database');
+        /*
         const modalDetails = document.querySelector('#contestModal .modal-details');
         if (modalDetails) {
             const sourceElement = document.createElement('div');
@@ -401,6 +437,7 @@ function showNewPagesContestDetails(contest) {
             `;
             modalDetails.appendChild(sourceElement);
         }
+        */
     }
 }
 
@@ -408,12 +445,15 @@ function showNewPagesContestDetails(contest) {
 function filterContestsBySource(source = 'all') {
     switch (source) {
         case 'newpages':
+            // Access the global 'contests' variable here
             filteredContests = contests.filter(contest => contest.isFromNewPages);
             break;
         case 'builtin':
+            // Access the global 'contests' variable here
             filteredContests = contests.filter(contest => !contest.isFromNewPages);
             break;
         default:
+            // Access the global 'contests' variable here
             filteredContests = [...contests];
     }
     
@@ -480,6 +520,8 @@ function initializeNewPagesIntegration() {
     setupAutoSync();
     
     // Add NewPages contests on first load if none exist
+    // This condition needs to be carefully managed if sampleContests is dynamic or empty.
+    // For now, it will always add NewPages contests if 'contests' is empty or only contains sampleContests.
     if (contests.length <= sampleContests.length) {
         const addedCount = integrateNewPagesContests();
         if (addedCount > 0) {
@@ -488,10 +530,40 @@ function initializeNewPagesIntegration() {
     }
 }
 
+// Function to update the display of contests (e.g., in a list or calendar)
+// This is a new function added to help visualize the changes.
+function updateContestsDisplay() {
+    const contestsListElement = document.getElementById('contestsList'); // Assuming you have an element with this ID
+    if (contestsListElement) {
+        contestsListElement.innerHTML = ''; // Clear existing list
+        if (filteredContests.length === 0) {
+            contestsListElement.innerHTML = '<p>No contests to display.</p>';
+            return;
+        }
+        filteredContests.forEach(contest => {
+            const li = document.createElement('li');
+            li.textContent = `${contest.name} (${contest.organization}) - Deadline: ${contest.deadline}`;
+            contestsListElement.appendChild(li);
+        });
+    } else {
+        console.log('No element with ID "contestsList" found to display contests.');
+    }
+}
+
+
 // Call this function after your DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Add a delay to ensure your existing app is initialized first
-    setTimeout(initializeNewPagesIntegration, 1000);
+    setTimeout(() => {
+        // Load initial contests (if any) or from localStorage
+        // For this fix, we assume initial contests might be loaded here
+        // or that the first call to integrateNewPagesContests will populate it.
+        // If you have existing contests stored, load them here before calling initializeNewPagesIntegration.
+        // Example: loadContestsFromLocalStorage();
+        
+        initializeNewPagesIntegration();
+        generateCalendar(); // Initial calendar generation after integration
+    }, 1000);
 });
 
 // Export functions for use in other parts of your app
