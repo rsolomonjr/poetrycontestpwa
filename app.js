@@ -171,7 +171,7 @@ let activeFilters = {
 };
 
 // Initialize app
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Set current date to today (not April 2025)
     currentDate = new Date();
 
@@ -332,7 +332,7 @@ function saveSubmissions() {
 function initializeEventListeners() {
     // Tab navigation
     document.querySelectorAll('.nav-tab').forEach(tab => {
-        tab.addEventListener('click', function() {
+        tab.addEventListener('click', function () {
             const tabName = this.dataset.tab;
             switchTab(tabName);
         });
@@ -365,7 +365,7 @@ function initializeEventListeners() {
     }
 
     if (themeSelect) {
-        themeSelect.addEventListener('change', function() {
+        themeSelect.addEventListener('change', function () {
             currentTheme = this.value;
             localStorage.setItem('theme', currentTheme);
             applyTheme(currentTheme);
@@ -512,11 +512,11 @@ function renderPoems() {
 
     // Add hover effects
     grid.querySelectorAll('.poem-card').forEach(card => {
-        card.addEventListener('mouseenter', function() {
+        card.addEventListener('mouseenter', function () {
             this.style.transform = 'translateY(-2px)';
             this.style.boxShadow = 'var(--shadow-lg)';
         });
-        card.addEventListener('mouseleave', function() {
+        card.addEventListener('mouseleave', function () {
             this.style.transform = 'translateY(0)';
             this.style.boxShadow = 'none';
         });
@@ -744,7 +744,7 @@ function addNewPoem(poemIdToEdit = null) {
     const modalContent = modal.querySelector('.modal-content'); // Get the content div to read data-poem-id
 
     if (saveDraftBtn) {
-        saveDraftBtn.addEventListener('click', function() {
+        saveDraftBtn.addEventListener('click', function () {
             const poemStatus = document.getElementById('poemStatus');
             if (poemStatus) {
                 poemStatus.value = 'draft';
@@ -754,7 +754,7 @@ function addNewPoem(poemIdToEdit = null) {
     }
 
     if (savePoemBtn) {
-        savePoemBtn.addEventListener('click', function() {
+        savePoemBtn.addEventListener('click', function () {
             savePoem(modalContent.dataset.poemId); // Pass the ID
         });
     }
@@ -791,10 +791,10 @@ function savePoem(poemId = null) {
 
         // Clean up HTML content - remove empty tags and placeholders
         htmlContent = htmlContent.replace(/<div><br><\/div>/g, '\n')
-                                  .replace(/<div>/g, '\n')
-                                  .replace(/<\/div>/g, '')
-                                  .replace(/^<br>/, '')
-                                  .trim();
+            .replace(/<div>/g, '\n')
+            .replace(/<\/div>/g, '')
+            .replace(/^<br>/, '')
+            .trim();
 
         // If HTML content is just placeholder, clear it
         if (htmlContent === 'Enter your poem here...' || htmlContent === '<br>' || htmlContent === '&nbsp;') {
@@ -983,7 +983,7 @@ function handleProfilePhotoUpload(event) {
     }
 
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
         const img = document.getElementById('profilePhoto');
         if (img) {
             img.src = e.target.result;
@@ -1163,7 +1163,7 @@ function addSubmissionsTab() {
     mainContent.appendChild(submissionsContent);
 
     // Update tab switching to include submissions
-    submissionsTab.addEventListener('click', function() {
+    submissionsTab.addEventListener('click', function () {
         switchTab('submissions');
         renderSubmissions();
     });
@@ -1447,10 +1447,10 @@ function showContestDetails(contest) {
                 </svg>
             </a>
         `;
-        linkElement.querySelector('a').addEventListener('mouseenter', function() {
+        linkElement.querySelector('a').addEventListener('mouseenter', function () {
             this.style.textDecoration = 'underline';
         });
-        linkElement.querySelector('a').addEventListener('mouseleave', function() {
+        linkElement.querySelector('a').addEventListener('mouseleave', function () {
             this.style.textDecoration = 'none';
         });
         modalDetails.appendChild(linkElement);
@@ -1649,7 +1649,7 @@ function initializeRichTextEditor(modal) {
 
     // Formatting button handlers
     modal.querySelectorAll('.format-btn[data-command]').forEach(btn => {
-        btn.addEventListener('click', function(e) {
+        btn.addEventListener('click', function (e) {
             e.preventDefault();
             const command = this.dataset.command;
             document.execCommand(command, false, null);
@@ -1659,13 +1659,13 @@ function initializeRichTextEditor(modal) {
     });
 
     // Font family handler
-    fontFamilySelect.addEventListener('change', function() {
+    fontFamilySelect.addEventListener('change', function () {
         document.execCommand('fontName', false, this.value);
         editor.focus();
     });
 
     // Font size handler
-    fontSizeSelect.addEventListener('change', function() {
+    fontSizeSelect.addEventListener('change', function () {
         const selection = window.getSelection();
         if (selection.rangeCount > 0) {
             const range = selection.getRangeAt(0);
@@ -1679,7 +1679,7 @@ function initializeRichTextEditor(modal) {
     });
 
     // Insert tab handler
-    insertTabBtn.addEventListener('click', function(e) {
+    insertTabBtn.addEventListener('click', function (e) {
         e.preventDefault();
         document.execCommand('insertHTML', false, '&nbsp;&nbsp;&nbsp;&nbsp;');
         editor.focus();
@@ -1687,7 +1687,7 @@ function initializeRichTextEditor(modal) {
     });
 
     // Toggle view handler
-    toggleViewBtn.addEventListener('click', function() {
+    toggleViewBtn.addEventListener('click', function () {
         if (isHTMLView) {
             // Switch back to visual editor
             editor.innerHTML = htmlSource.value;
@@ -1706,7 +1706,7 @@ function initializeRichTextEditor(modal) {
     });
 
     // Sync HTML source changes back to editor
-    htmlSource.addEventListener('input', function() {
+    htmlSource.addEventListener('input', function () {
         if (isHTMLView) {
             editor.innerHTML = this.value;
             updateWordCount();
@@ -1726,7 +1726,7 @@ function initializeRichTextEditor(modal) {
     editor.addEventListener('input', updateWordCount);
 
     // Keyboard shortcuts
-    editor.addEventListener('keydown', function(e) {
+    editor.addEventListener('keydown', function (e) {
         if (e.ctrlKey || e.metaKey) {
             switch (e.key.toLowerCase()) {
                 case 'b':
@@ -1754,7 +1754,7 @@ function initializeRichTextEditor(modal) {
     });
 
     // Paste handler to clean up pasted content
-    editor.addEventListener('paste', function(e) {
+    editor.addEventListener('paste', function (e) {
         e.preventDefault();
         const text = e.clipboardData.getData('text/plain');
         document.execCommand('insertText', false, text);
@@ -1781,7 +1781,7 @@ function importPoems() {
     fileInput.accept = '.txt,.md,.json';
     fileInput.multiple = true;
 
-    fileInput.onchange = function(event) {
+    fileInput.onchange = function (event) {
         const files = event.target.files;
         if (files.length === 0) return;
 
@@ -1790,7 +1790,7 @@ function importPoems() {
 
         Array.from(files).forEach(file => {
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 const content = e.target.result;
                 let poemData;
 
@@ -2291,17 +2291,17 @@ function importData() {
     fileInput.type = 'file';
     fileInput.accept = '.json';
 
-    fileInput.onchange = function(event) {
+    fileInput.onchange = function (event) {
         const file = event.target.files[0];
         if (!file) return;
 
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             try {
                 const importedData = JSON.parse(e.target.result);
 
-                createConfirmationDialog('This will replace all your current data. Are you sure you want to continue?', () => {
-                    // Import poems
+                createConfirmationDialog('Imported contests will be merged. Existing contests with the same name will be overwritten. Continue?', () => {
+                    // Import poems (unchanged)
                     if (importedData.poems && Array.isArray(importedData.poems)) {
                         poems = importedData.poems;
                         filteredPoems = [...poems];
@@ -2310,32 +2310,48 @@ function importData() {
                         updateTagFilter();
                     }
 
-                    // Import profile
+                    // Import profile (unchanged)
                     if (importedData.profile) {
                         userProfile = importedData.profile;
                         saveUserProfile();
                         populateProfileForm();
                     }
 
-                    // Import custom contests (avoid duplicating sample contests)
+                    // NEW: Merge imported contests by name (not id!)
                     if (importedData.contests && Array.isArray(importedData.contests)) {
-                        const customContests = importedData.contests.filter(contest =>
-                            !sampleContests.some(sample => sample.id === contest.id)
-                        );
-                        contests = [...sampleContests, ...customContests];
+                        // Build a map of current contests by name (case-insensitive)
+                        const contestNameMap = {};
+                        contests.forEach(contest => {
+                            contestNameMap[contest.name.trim().toLowerCase()] = contest;
+                        });
+
+                        importedData.contests.forEach(importedContest => {
+                            const key = importedContest.name.trim().toLowerCase();
+                            contestNameMap[key] = importedContest; // Overwrite if exists, add if not
+                        });
+
+                        // Rebuild contests array from map, keeping sampleContests at the start
+                        const mergedContestsList = Object.values(contestNameMap);
+                        // Make sure sampleContests are always present at the start of the list (optional)
+                        contests = [...sampleContests];
+                        mergedContestsList.forEach(contest => {
+                            if (!sampleContests.some(sample => sample.name.trim().toLowerCase() === contest.name.trim().toLowerCase())) {
+                                contests.push(contest);
+                            }
+                        });
                         filteredContests = [...contests];
                         saveContests();
                         generateCalendar();
                     }
 
-                    // Import submissions
+                    // Import submissions (unchanged)
                     if (importedData.submissions && Array.isArray(importedData.submissions)) {
                         submissions = importedData.submissions;
                         saveSubmissions();
                     }
 
                     updateAppStats();
-                    showNotification('Data imported successfully!', 'success');
+                    showNotification('Data imported and merged successfully!', 'success');
                 });
             } catch (error) {
                 console.error('Error importing data:', error);
@@ -2494,20 +2510,20 @@ function openResource(url) {
 }
 
 // Add hover effects for resource cards when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // ... existing initialization code ...
 
     // Add resource card hover effects after a delay to ensure they exist
     setTimeout(() => {
         const resourceCards = document.querySelectorAll('.resource-card');
         resourceCards.forEach(card => {
-            card.addEventListener('mouseenter', function() {
+            card.addEventListener('mouseenter', function () {
                 this.style.transform = 'translateY(-4px)';
                 this.style.boxShadow = 'var(--shadow-lg)';
                 this.style.borderColor = 'var(--primary)';
             });
 
-            card.addEventListener('mouseleave', function() {
+            card.addEventListener('mouseleave', function () {
                 this.style.transform = 'translateY(0)';
                 this.style.boxShadow = 'none';
                 this.style.borderColor = 'var(--border)';
@@ -2516,12 +2532,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 500);
 });
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
+    window.addEventListener('load', function () {
         navigator.serviceWorker.register('/sw.js')
-            .then(function(registration) {
+            .then(function (registration) {
                 console.log('ServiceWorker registration successful');
             })
-            .catch(function(err) {
+            .catch(function (err) {
                 console.log('ServiceWorker registration failed: ', err);
             });
     });
