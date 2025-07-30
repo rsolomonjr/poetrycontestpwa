@@ -49,7 +49,7 @@ function generateCurrentContests() {
             deadline: getNextDeadline(currentDate, 6, 8), // June 8th
             prize: 1000,
             fee: 25,
-            url: "https://buttonpoetry.com/first-book-contest/",
+            url: "https://buttonpoetry.submittable.com/submit",
             favicon: "B",
             description: "Publication plus $1,000 for unpublished full-length manuscript",
             entryFee: "$25"
@@ -84,23 +84,23 @@ function generateCurrentContests() {
             organization: "Red Wheelbarrow Literary Magazine",
             deadline: getNextDeadline(currentDate, 7, 31), // July 31st
             prize: 1000,
-            fee: 20,
-            url: "https://redwheelbarrowpoetry.com/",
+            fee: 15,
+            url: "https://redwheelbarrow.submittable.com/submit",
             favicon: "R",
             description: "$1,000 first place plus letterpress broadside",
-            entryFee: "$20"
+            entryFee: "$15"
         },
         {
             id: 8,
             name: "Narrative Poetry Contest",
             organization: "Narrative Magazine",
-            deadline: getNextDeadline(currentDate, 8, 15), // August 15th
+            deadline: getNextDeadline(currentDate, 7, 18), // July 18th 
             prize: 1500,
-            fee: 25,
-            url: "https://narrativemagazine.com/contests",
+            fee: 26,
+            url: "https://www.narrativemagazine.com/submission",
             favicon: "N",
             description: "$1,500 plus publication in Narrative Magazine",
-            entryFee: "$25"
+            entryFee: "$26"
         },
         {
             id: 9,
