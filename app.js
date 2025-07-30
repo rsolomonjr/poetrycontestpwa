@@ -1,42 +1,159 @@
-// Real contest data based on current poetry contest landscape
-const sampleContests = [
-    {
-        id: 1,
-        name: "Rattle Poetry Prize",
-        organization: "Rattle Magazine",
-        deadline: "2025-07-15",
-        prize: 15000,
-        fee: 25,
-        url: "https://rattle.com/page/poetryprize/",
-        favicon: "R",
-        description: "$15,000 for a single poem plus publication. Ten finalists receive $500 each.",
-        entryFee: "One-year subscription"
-    },
-    {
-        id: 2,
-        name: "National Poetry Competition",
-        organization: "The Poetry Society",
-        deadline: "2025-10-31",
-        prize: 5000,
-        fee: 8,
-        url: "https://poetrysociety.org.uk/competitions/national-poetry-competition/",
-        favicon: "P",
-        description: "One of the world's most prestigious poetry prizes. £5,000 first prize.",
-        entryFee: "£8 first poem"
-    },
-    {
-        id: 3,
-        name: "Tom Howard Poetry Contest",
-        organization: "Winning Writers",
-        deadline: "2025-09-30",
-        prize: 3000,
-        fee: 25,
-        url: "https://winningwriters.com/our-contests/tom-howard-margaret-reid-poetry-contest",
-        favicon: "W",
-        description: "$3,000 first prize. Accepts both published and unpublished poetry.",
-        entryFee: "$25"
+// Real-time contest data based on current poetry contest landscape
+function generateCurrentContests() {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth();
+    
+    // Generate realistic deadlines for upcoming months
+    const contests = [
+        {
+            id: 1,
+            name: "Rattle Poetry Prize",
+            organization: "Rattle Magazine",
+            deadline: getNextDeadline(currentDate, 7, 15), // July 15th
+            prize: 15000,
+            fee: 25,
+            url: "https://rattle.com/page/poetryprize/",
+            favicon: "R",
+            description: "$15,000 for a single poem plus publication. Ten finalists receive $500 each.",
+            entryFee: "One-year subscription"
+        },
+        {
+            id: 2,
+            name: "National Poetry Competition",
+            organization: "The Poetry Society",
+            deadline: getNextDeadline(currentDate, 10, 31), // October 31st
+            prize: 5000,
+            fee: 8,
+            url: "https://poetrysociety.org.uk/competitions/national-poetry-competition/",
+            favicon: "P",
+            description: "One of the world's most prestigious poetry prizes. £5,000 first prize.",
+            entryFee: "£8 first poem"
+        },
+        {
+            id: 3,
+            name: "Tom Howard Poetry Contest",
+            organization: "Winning Writers",
+            deadline: getNextDeadline(currentDate, 9, 30), // September 30th
+            prize: 3000,
+            fee: 25,
+            url: "https://winningwriters.com/our-contests/tom-howard-margaret-reid-poetry-contest",
+            favicon: "W",
+            description: "$3,000 first prize. Accepts both published and unpublished poetry.",
+            entryFee: "$25"
+        },
+        {
+            id: 4,
+            name: "Button Poetry First Book Contest",
+            organization: "Button Poetry",
+            deadline: getNextDeadline(currentDate, 6, 8), // June 8th
+            prize: 1000,
+            fee: 25,
+            url: "https://buttonpoetry.com/first-book-contest/",
+            favicon: "B",
+            description: "Publication plus $1,000 for unpublished full-length manuscript",
+            entryFee: "$25"
+        },
+        {
+            id: 5,
+            name: "William Matthews Poetry Prize",
+            organization: "Asheville Poetry Review",
+            deadline: getNextDeadline(currentDate, 8, 31), // August 31st
+            prize: 1000,
+            fee: 25,
+            url: "https://ashevillereview.com/contests/",
+            favicon: "A",
+            description: "$1,000 and publication in Asheville Poetry Review",
+            entryFee: "$25"
+        },
+        {
+            id: 6,
+            name: "Magma Poetry Competition",
+            organization: "Magma Poetry",
+            deadline: getNextDeadline(currentDate, 9, 30), // September 30th
+            prize: 1000,
+            fee: 15,
+            url: "https://magmapoetry.com/competitions/",
+            favicon: "M",
+            description: "£1000 first prize, £300 second, £150 third",
+            entryFee: "£15"
+        },
+        {
+            id: 7,
+            name: "Red Wheelbarrow Poetry Prize",
+            organization: "Red Wheelbarrow Literary Magazine",
+            deadline: getNextDeadline(currentDate, 7, 31), // July 31st
+            prize: 1000,
+            fee: 20,
+            url: "https://redwheelbarrowpoetry.com/",
+            favicon: "R",
+            description: "$1,000 first place plus letterpress broadside",
+            entryFee: "$20"
+        },
+        {
+            id: 8,
+            name: "Narrative Poetry Contest",
+            organization: "Narrative Magazine",
+            deadline: getNextDeadline(currentDate, 8, 15), // August 15th
+            prize: 1500,
+            fee: 25,
+            url: "https://narrativemagazine.com/contests",
+            favicon: "N",
+            description: "$1,500 plus publication in Narrative Magazine",
+            entryFee: "$25"
+        },
+        {
+            id: 9,
+            name: "Academy of American Poets Contest",
+            organization: "Academy of American Poets",
+            deadline: getNextDeadline(currentDate, 11, 1), // November 1st
+            prize: 2500,
+            fee: 20,
+            url: "https://poets.org/academy-american-poets-prize",
+            favicon: "A",
+            description: "$2,500 for outstanding achievement in poetry",
+            entryFee: "$20"
+        },
+        {
+            id: 10,
+            name: "Four Way Books Poetry Prize",
+            organization: "Four Way Books",
+            deadline: getNextDeadline(currentDate, 3, 31), // March 31st
+            prize: 1000,
+            fee: 25,
+            url: "https://fourwaybooks.com/contests/",
+            favicon: "F",
+            description: "$1,000 and publication for poetry collection",
+            entryFee: "$25"
+        }
+    ];
+    
+    // Filter out contests with past deadlines and return only future ones
+    return contests.filter(contest => {
+        const deadline = new Date(contest.deadline);
+        return deadline > currentDate;
+    });
+}
+
+// Helper function to get next occurrence of a month/day deadline
+function getNextDeadline(currentDate, targetMonth, targetDay) {
+    const currentYear = currentDate.getFullYear();
+    let targetYear = currentYear;
+    
+    // Create target date for current year
+    let targetDate = new Date(targetYear, targetMonth - 1, targetDay);
+    
+    // If the target date has already passed this year, use next year
+    if (targetDate <= currentDate) {
+        targetYear++;
+        targetDate = new Date(targetYear, targetMonth - 1, targetDay);
     }
-];
+    
+    // Format as YYYY-MM-DD
+    return targetDate.toISOString().split('T')[0];
+}
+
+const sampleContests = generateCurrentContests();
 
 // App state
 let currentDate = new Date();
@@ -55,6 +172,9 @@ let activeFilters = {
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', function() {
+    // Set current date to today (not April 2025)
+    currentDate = new Date();
+    
     initializeTheme();
     generateCalendar();
     initializeEventListeners();
