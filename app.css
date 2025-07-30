@@ -514,6 +514,7 @@ body {
     min-height: 24px;
     position: relative;
     overflow: hidden;
+    justify-content: center;
 }
 
 .contest-event:hover {
@@ -524,8 +525,8 @@ body {
 }
 
 .contest-favicon {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     border-radius: var(--radius-sm);
     background: var(--primary);
     display: flex;
@@ -541,6 +542,7 @@ body {
     font-weight: 700;
     color: var(--success);
     font-size: 0.5625rem;
+    display: none;
 }
 
 /* Filter Panel Mobile Optimization - Fixed */
@@ -1651,6 +1653,10 @@ input:checked + .toggle-slider:before {
         width: 18px;
         height: 18px;
         font-size: 0.6875rem;
+    }
+
+    .contest-prize {
+        display: block;
     }
     
     .form-row {
