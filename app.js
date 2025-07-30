@@ -466,53 +466,6 @@ function initializeEventListeners() {
     }
 }
 
-function savePoem(existingPoem = null) {
-    const title = document.getElementById('poemTitle')?.value;
-    const text = document.getElementById('poemText')?.value;
-    const category = document.getElementById('poemCategory')?.value;
-    const status = document.getElementById('poemStatus')?.value;
-    const tags = document.getElementById('poemTags')?.value.split(',').map(tag => tag.trim()).filter(tag => tag);
-    const notes = document.getElementById('poemNotes')?.value;
-
-    if (!title || !text) {
-        alert('Please fill in the title and poem text');
-        return;
-    }
-
-    const words = text.trim().split(/\s+/).length;
-    const lines = text.split('\n').length;
-
-    const poem = {
-        id: existingPoem ? existingPoem.id : `poem-${Date.now()}`,
-        title,
-        text,
-        category,
-        status,
-        tags,
-        notes,
-        wordCount: words,
-        lineCount: lines,
-        created: existingPoem ? existingPoem.created : new Date().toISOString(),
-        modified: new Date().toISOString()
-    };
-
-    if (existingPoem) {
-        const index = poems.findIndex(p => p.id === existingPoem.id);
-        poems[index] = poem;
-    } else {
-        poems.push(poem);
-    }
-
-    savePoems();
-    filteredPoems = [...poems];
-    renderPoems();
-    updateTagFilter();
-    
-    document.querySelector('.modal')?.remove();
-    
-    showNotification('Poem saved successfully!', 'success');
-}
-
 function renderPoems() {
     const grid = document.getElementById('poemsGrid');
     const noPoems = document.getElementById('noPoemsMessage');
@@ -639,14 +592,17 @@ function editPoem(poemId) {
     // Populate with existing data
     setTimeout(() => {
         const poemTitle = document.getElementById('poemTitle');
-        const poemText = document.getElementById('poemText');
+        const poemTextEditor = document.getElementById('poemTextEditor');
         const poemCategory = document.getElementById('poemCategory');
         const poemStatus = document.getElementById('poemStatus');
         const poemTags = document.getElementById('poemTags');
         const poemNotes = document.getElementById('poemNotes');
         
         if (poemTitle) poemTitle.value = poem.title;
-        if (poemText) poemText.value = poem.text;
+        if (poemTextEditor) {
+            // Set both HTML content and text content
+            poemTextEditor.innerHTML = poem.htmlContent || poem.text.replace(/\n/g, '<br>');
+        }
         if (poemCategory) poemCategory.value = poem.category;
         if (poemStatus) poemStatus.value = poem.status;
         if (poemTags) poemTags.value = poem.tags.join(', ');
@@ -665,6 +621,109 @@ function editPoem(poemId) {
             saveBtn.onclick = () => savePoem(poem);
         }
     }, 100);
+}
+
+function savePoem(existingPoem = null) {
+    const title = document.getElementById('poemTitle')?.value;
+    const editor = document.getElementById('poemTextEditor');
+    const htmlSource = document.getElementById('poemTextHTML');
+    const category = document.getElementById('poemCategory')?.value;
+    const status = document.getElementById('poemStatus')?.value;
+    const tags = document.getElementById('poemTags')?.value.split(',').map(tag => tag.trim()).filter(tag => tag);
+    const notes = document.getElementById('poemNotes')?.value;
+
+    console.log('Saving poem - Debug info:', {
+        title: title,
+        editor: editor,
+        editorInnerHTML: editor?.innerHTML,
+        editorInnerText: editor?.innerText,
+        editorTextContent: editor?.textContent
+    });
+
+    if (!title || !title.trim()) {
+        alert('Please fill in the title');
+        return;
+    }
+
+    let text, htmlContent;
+    
+    // Get content from rich text editor
+    if (editor) {
+        htmlContent = editor.innerHTML;
+        text = editor.innerText || editor.textContent || '';
+        
+        // Remove placeholder text if it's still there
+        if (text === 'Enter your poem here...') {
+            text = '';
+            htmlContent = '';
+        }
+        
+        // Clean up HTML content - remove empty tags and placeholders
+        htmlContent = htmlContent.replace(/<div><br><\/div>/g, '\n')
+                                  .replace(/<div>/g, '\n')
+                                  .replace(/<\/div>/g, '')
+                                  .replace(/^<br>/, '')
+                                  .trim();
+                                  
+        // If HTML content is just placeholder, clear it
+        if (htmlContent === 'Enter your poem here...' || htmlContent === '<br>' || htmlContent === '&nbsp;') {
+            htmlContent = '';
+            text = '';
+        }
+    } else {
+        // Fallback for plain text editor (editing existing poems)
+        const plainTextArea = document.getElementById('poemText');
+        if (plainTextArea) {
+            text = plainTextArea.value || '';
+            htmlContent = text.replace(/\n/g, '<br>');
+        } else {
+            text = '';
+            htmlContent = '';
+        }
+    }
+
+    console.log('Processed text:', { text: text, htmlContent: htmlContent });
+
+    if (!text || !text.trim() || text.trim() === 'Enter your poem here...') {
+        alert('Please enter some poem text');
+        return;
+    }
+
+    const words = text.trim().split(/\s+/).length;
+    const lines = text.split('\n').length;
+
+    const poem = {
+        id: existingPoem ? existingPoem.id : `poem-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        title: title.trim(),
+        text: text.trim(),
+        htmlContent: htmlContent, // Store formatted HTML version
+        category,
+        status,
+        tags,
+        notes: notes || '',
+        wordCount: words,
+        lineCount: lines,
+        created: existingPoem ? existingPoem.created : new Date().toISOString(),
+        modified: new Date().toISOString()
+    };
+
+    if (existingPoem) {
+        const index = poems.findIndex(p => p.id === existingPoem.id);
+        if (index !== -1) {
+            poems[index] = poem;
+        }
+    } else {
+        poems.push(poem);
+    }
+
+    savePoems();
+    filteredPoems = [...poems];
+    renderPoems();
+    updateTagFilter();
+    
+    document.querySelector('.modal')?.remove();
+    
+    showNotification('Poem saved successfully!', 'success');
 }
 
 function deletePoem(poemId) {
